@@ -1,0 +1,38 @@
+document.addEventListener("DOMContentLoaded", function() {
+    
+    const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/contribuites';
+    const apiToken = '123456';
+    const searchField = document.getElementById("searchField");
+    const fetchButton = document.getElementById("fetchButton");
+    const userDetails = document.getElementById("userDetails");
+
+    fetchButton.addEventListener("click", function() {
+
+        fetch(apiEndpoint, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${apiToken}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.situacao === "SUCESSO" && data.contribuintes.length > 0) {
+                const user = data.contribuintes[0];
+                
+                userDetails.innerHTML = `
+                    <h2>Dados do Usuário</h2>
+                    <p>Nome: ${user.pes_nome}</p>
+                    <p>CPF/CNPJ: ${user.pes_cpfcnpj}</p>
+                    <p>Inscrições: ${data.inscricoes}</p>
+                    <!-- Adicione mais campos conforme necessário -->
+                `;
+            } else {
+                userDetails.innerHTML = "<p>Nenhum usuário encontrado.</p>";
+            }
+        })
+        .catch(error => {
+            alert("Erro ao consultar a API.");
+            console.error(error);
+        });
+    });
+});

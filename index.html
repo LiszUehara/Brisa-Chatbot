@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chatGPT</title>
+    <link rel="styleSheet" href="styles.css"/>
+</head>
+<body>
+    <h1>Faça uma pergunta:</h1>
+    
+    <form id="questionForm">
+        <input type="text" id="questionInput" placeholder="Digite sua pergunta" required>
+        <button type="submit">Enviar</button>
+    </form>
+    
+    <div id="answerContainer">
+        <h2>Resposta:</h2>
+        <p id="answer"></p>
+    </div>
+
+    <form id="apiForm">
+        <label for="searchField">Consultar por Inscrição, Nome ou CPF:</label>
+        <input type="text" id="searchField" placeholder="Digite o número de inscrição, nome ou CPF" required>
+
+        <button type="button" id="fetchButton">Consultar</button>
+        
+        <input type="radio" id="addressSearch" name="searchType" value="address">
+        <label for="addressSearch">Consultar Endereço</label>
+
+        <button type="button" id="fetchButton">Consultar</button>
+    </form>
+    
+    <div id="userDetails">
+        <!-- Os detalhes do usuário serão exibidos aqui -->
+    </div>
+
+
+    <script src= "chatgpt.js"></script>
+</body>
+</html>
