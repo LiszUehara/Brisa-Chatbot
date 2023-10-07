@@ -1,0 +1,1 @@
+int drawable round_chat_24 0x0
