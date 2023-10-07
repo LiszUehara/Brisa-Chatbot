@@ -1,0 +1,2 @@
+org.jetbrains.chat
+drawable round_chat_24
