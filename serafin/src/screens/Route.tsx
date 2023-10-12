@@ -7,7 +7,7 @@ import MyDrawer from '../navigation/Drawer';
 export default function Route() {
   
   return (
-      <MyDrawer/>
+      <Text>Autenticado</Text>
   );
 }
 

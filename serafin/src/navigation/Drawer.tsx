@@ -24,7 +24,6 @@ export default function MyDrawer() {
 
       <Drawer.Screen name="Início" component={Home} />
       <Drawer.Screen name="Fale com serafim" component={Chat} />
-      <Drawer.Screen name="Segunda via" component={Boleto} />
 
     </Drawer.Navigator>
   );

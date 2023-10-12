@@ -9,17 +9,21 @@ import {
 } from "react-native";
 import Route from "./Route";
 import { Rect } from "react-native-svg";
+import { useAtom } from "jotai";
+import { useShowLogin } from "../repo/atom";
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [inputError, setInputError] = useState("");
   const [loginInputType, setLoginInputType] = useState("");
+  const [num, setNum] = useAtom(useShowLogin); 
 
   const handleLogin = () => {
     if (validateInput(registrationNumber)) {
-    
-      navigation.navigate(Route);
+    setNum(false)
+      //navigation.navigate(Route);
     } else {
+      setNum(true)
       setInputError(
         "Por favor, insira um número de inscrição, CPF ou CNPJ válido."
       );
