@@ -3,6 +3,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "../screens/HomeScreen";
 import Chat from "../screens/ChatScreen";
 import Boleto from "../screens/BoletoScreen";
+import App from "../../App";
+import MyStack from "../screens/Route";
 
 const Drawer = createDrawerNavigator();
 const screenOptions = {

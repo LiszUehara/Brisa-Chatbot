@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../utils/C";
 
 
-export default function Home() {
+export default function Home({navigation}) {
   //colocar uma lista de opcoes (emitir boleto e outros)
 
     return (

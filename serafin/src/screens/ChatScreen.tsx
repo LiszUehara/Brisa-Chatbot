@@ -173,7 +173,7 @@ const ChatApp = () => {
         },
         {
           headers: {
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           },
         }
       );
