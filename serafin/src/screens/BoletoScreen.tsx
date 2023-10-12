@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, } from "react-native";
-import Clipboard from '@react-native-clipboard/clipboard';
+//import Clipboard from '@react-native-clipboard/clipboard';
 import { COLORS } from "../utils/C";
 import Home from "../svg/house.svg";
 
 const buttonOne = () => {
-  Clipboard.setString('mail@mail.com')
+  //Clipboard.setString('mail@mail.com')
   Alert.alert(
     'Código de barras',
     'Código de barras copiado com sucesso para a área de transferência!',
