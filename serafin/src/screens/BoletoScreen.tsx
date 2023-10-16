@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert, } from "react-native";
+import React from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 //import Clipboard from '@react-native-clipboard/clipboard';
-import { COLORS } from "../utils/C";
-import Home from "../svg/house.svg";
+import {COLORS} from '../utils/C';
+import Home from '../svg/house.svg';
 
 const buttonOne = () => {
   //Clipboard.setString('mail@mail.com')
@@ -11,7 +11,7 @@ const buttonOne = () => {
     'Código de barras copiado com sucesso para a área de transferência!',
     [
       {
-        text: 'OK'
+        text: 'OK',
       }
     ],
   );
@@ -28,14 +28,12 @@ export default function Boleto() {
       <View style={styles.mainContent}>
         <View style={styles.addressBox}>
           <View>
-            <Home
-              width={90}
-              height={70}
-              fill={COLORS.blue}
-            />
+            <Home width={90} height={70} fill={COLORS.blue} />
           </View>
           <View style={styles.addressTextBox}>
-            <Text style={styles.address}>{ }, { }</Text>
+            <Text style={styles.address}>
+              {}, {}
+            </Text>
             <Text style={styles.address}>Vencimento: { }</Text>
           </View>
         </View>
@@ -55,16 +53,16 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 0.7,
-    marginVertical: "20%",
+    marginVertical: '20%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   primaryButton: {
     backgroundColor: COLORS.blue,
     borderRadius: 15,
-    paddingVertical: "4%",
+    paddingVertical: '4%',
     width: '80%',
-    marginVertical: "1.5%",
+    marginVertical: '1.5%',
   },
   primaryButtonText: {
     color: 'white',
