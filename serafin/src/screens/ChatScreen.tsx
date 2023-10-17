@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   TextInput,
   Button,
   FlatList,
   Text,
-  KeyboardAvoidingView,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MAX_MESSAGES = 50;
 
@@ -23,18 +24,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F0F0F0',
-    marginTop: 20
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#007BFF',
-    padding: 10,
-  },
-  headerText: {
-    color: '#FFF',
-    fontSize: 18,
+    marginTop: 20,
   },
   chatContainer: {
     flex: 1,
@@ -52,7 +42,7 @@ const styles = StyleSheet.create({
   },
   assistantMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'blue',
     borderRadius: 8,
     padding: 8,
     marginVertical: 4,
@@ -88,8 +78,32 @@ const styles = StyleSheet.create({
     color: '#FFF',
     textAlign: 'center',
   },
+  clearButton: {
+    backgroundColor: '#F0F0F0',
+    borderRadius: 5,
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   loadingIndicator: {
     marginRight: 10,
+  },
+  clearButton: {
+    backgroundColor: '#F0F0F0',
+    borderRadius: 5,
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  clearButtonText: {
+    color: '#000',
+    textAlign: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -98,6 +112,7 @@ const ChatApp = () => {
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [lastUserInteractionTime, setLastUserInteractionTime] = useState(null);
+  const flatListRef = useRef(null);
 
   useEffect(() => {
     loadStoredMessages();
@@ -135,9 +150,9 @@ const ChatApp = () => {
   };
 
   const clearChatAfterInactivity = () => {
-    const inactivityTimeout = 2 * 60 * 1000; // 2 minutos em milissegundos
+    const inactivityTimeout = 3600000; // 1 hora em milissegundos
     const currentTime = new Date();
-    
+
     if (lastUserInteractionTime && currentTime - lastUserInteractionTime >= inactivityTimeout) {
       clearChatMessages();
     }
@@ -173,14 +188,16 @@ const ChatApp = () => {
         },
         {
           headers: {
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           },
         }
       );
 
       const assistantMessage = {
         role: 'assistant',
-        content: 'Serafin: ' + (response.data.choices[0]?.message?.content || 'Sem resposta'),
+        content:
+          'Serafin: ' +
+          (response.data.choices[0]?.message?.content || 'Sem resposta'),
       };
 
       const updatedMessages = [...newMessages, assistantMessage];
@@ -189,22 +206,23 @@ const ChatApp = () => {
       console.error('Erro ao enviar mensagem para o assistente:', error);
     } finally {
       setIsSending(false);
+      // Rolando para a última mensagem adicionada
+      if (flatListRef.current) {
+        flatListRef.current.scrollToEnd({ animated: true });
+      }
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Chat com Serafin</Text>
-        <Button title="Limpar Chat" onPress={clearChatMessages} />
-      </View>
       <FlatList
+        ref={flatListRef} // Referência para o FlatList
         data={messages}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <ChatMessage role={item.role} content={item.content} />}
+        renderItem={({ item }) => (
+          <ChatMessage role={item.role} content={item.content} />
+        )}
         contentContainerStyle={styles.chatContainer}
-        ref={(ref) => (this.flatListRef = ref)}
-        onContentSizeChange={() => this.flatListRef.scrollToEnd({ animated: true })}
         onTouchStart={handleUserInteraction}
       />
       <View style={styles.inputContainer}>
@@ -215,12 +233,17 @@ const ChatApp = () => {
           placeholder="Digite sua mensagem..."
           editable={!isSending}
         />
-        {isSending ? (
-          <View style={styles.loadingIndicator}>
-            <Text>Enviando...</Text>
-          </View>
-        ) : null}
+        {isSending && (
+          <Spinner
+            visible={isSending}
+            textContent={'Enviando...'}
+            textStyle={{ color: '#FFF' }}
+          />
+        )}
         <Button title="Enviar" onPress={onSend} disabled={isSending} />
+        <TouchableOpacity style={styles.clearButton} onPress={clearChatMessages}>
+          <Text style={styles.clearButtonText}>L</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -1,10 +1,9 @@
-import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import Home from "../screens/HomeScreen";
-import Chat from "../screens/ChatScreen";
-import Boleto from "../screens/BoletoScreen";
-import App from "../../App";
-import MyStack from "../screens/Route";
+import React from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Home from '../screens/HomeScreen';
+import ChatApp from '../screens/ChatScreen';
+import Boleto from '../screens/BoletoScreen';
+import Login from '../screens/Login';
 
 const Drawer = createDrawerNavigator();
 const screenOptions = {
@@ -21,10 +20,10 @@ const screenOptions = {
 export default function MyDrawer() {
   return (
     <Drawer.Navigator>
-
       <Drawer.Screen name="Início" component={Home} />
-      <Drawer.Screen name="Fale com serafim" component={Chat} />
-
+      <Drawer.Screen name="ChatBot" component={ChatApp} />
+      <Drawer.Screen name="Boleto" component={Boleto} />
+      <Drawer.Screen name="Login" component={Login} />
     </Drawer.Navigator>
   );
 }

@@ -1,125 +1,146 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
-//import Clipboard from '@react-native-clipboard/clipboard';
-import {COLORS} from '../utils/C';
-import Home from '../svg/house.svg';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Linking } from 'react-native';
+import axios from 'axios';
 
-const buttonOne = () => {
-  //Clipboard.setString('mail@mail.com')
-  Alert.alert(
-    'Código de barras',
-    'Código de barras copiado com sucesso para a área de transferência!',
-    [
-      {
-        text: 'OK',
+const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/dams';
+const apiToken = '966988da19301ceec429f3a39649a696';
+
+const Boleto = () => {
+  const [boletoData, setBoletoData] = useState(null);
+  const [dams, setDams] = useState(''); // Estado para armazenar o valor de DAMS
+  const [contribuinte, setContribuinte] = useState(''); // Estado para armazenar o nome do contribuinte
+
+  useEffect(() => {
+    fetchBoletoData();
+  }, []);
+
+  const fetchBoletoData = async () => {
+    try {
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+        },
+        params: {
+          dams, // Adicione o valor de DAMS aos parâmetros da consulta
+          nome: contribuinte, // Adicione o nome do contribuinte aos parâmetros da consulta
+        },
+      });
+
+      if (
+        response.data.situacao === 'SUCESSO' &&
+        response.data.dams.length > 0
+      ) {
+        const boleto = response.data.dams[0];
+
+        if (boleto.ies_status === 'ABERTO') {
+          setBoletoData(boleto);
+        }
       }
-    ],
-  );
-};
-const buttonTwo = () => {
+    } catch (error) {
+      console.error('Erro ao consultar a API:', error);
+    }
+  };
 
-};
+  const downloadBoleto = () => {
+    if (boletoData && boletoData.url) {
+      Linking.openURL(boletoData.url);
+    } else {
+      Alert.alert(
+        'Erro',
+        'Não foi possível obter a URL de download do boleto.'
+      );
+    }
+  };
 
-export default function Boleto() {
-  const price = 19.99;
   return (
     <View style={styles.container}>
-
-      <View style={styles.mainContent}>
-        <View style={styles.addressBox}>
-          <View>
-            <Home width={90} height={70} fill={COLORS.blue} />
-          </View>
-          <View style={styles.addressTextBox}>
-            <Text style={styles.address}>
-              {}, {}
-            </Text>
-            <Text style={styles.address}>Vencimento: { }</Text>
-          </View>
-        </View>
-        <Text style={styles.priceText} >R${price}</Text>
-      </View >
-      <TouchableOpacity style={styles.primaryButton} onPress={buttonOne}>
-        <Text style={styles.primaryButtonText}>Copiar cód. de barras </Text>
+      <Text style={styles.title}>Consulte seu boleto aqui</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Insira o valor de DAMS"
+        value={dams}
+        onChangeText={(text) => setDams(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Insira o nome do contribuinte"
+        value={contribuinte}
+        onChangeText={(text) => setContribuinte(text)}
+      />
+      <TouchableOpacity style={styles.searchButton} onPress={fetchBoletoData}>
+        <Text style={styles.searchButtonText}>Consultar Boleto</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.secondaryButton} onPress={buttonTwo}>
-        <Text style={styles.secondaryButtonText}>Baixar boleto</Text>
-      </TouchableOpacity>
-    </View >
+      {boletoData && (
+        <>
+          <Text style={styles.priceText}>
+            Valor: R${boletoData.val_boleto.toFixed(2)}
+          </Text>
+          <Text style={styles.dateText}>
+            Vencimento: {boletoData.dat_vencimento}
+          </Text>
+          <TouchableOpacity style={styles.downloadButton} onPress={downloadBoleto}>
+            <Text style={styles.downloadButtonText}>Baixar Boleto</Text>
+          </TouchableOpacity>
+        </>
+      )}
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-
   container: {
-    flex: 0.7,
-    marginVertical: '20%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  primaryButton: {
-    backgroundColor: COLORS.blue,
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#1a3495', 
+  },
+  input: {
+    width: '80%',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 8,
+    marginBottom: 10,
+  },
+  searchButton: {
+    backgroundColor: '#0047FF', 
     borderRadius: 15,
     paddingVertical: '4%',
     width: '80%',
-    marginVertical: '1.5%',
+    marginVertical: 2,
   },
-  primaryButtonText: {
+  searchButtonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: "center"
-  },
-  secondaryButton: {
-    borderColor: COLORS.blue,
-    borderRadius: 15,
-    borderWidth: 1.5,
-    width: '80%',
-    paddingVertical: "4%",
-    marginVertical: "1.5%",
-  },
-  secondaryButtonText: {
-    color: COLORS.blue,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: "center"
-  },
-  priceText: {
-    color: 'white',
-    fontSize: 34,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingVertical: "14%"
   },
-  address: {
-    color: 'white',
+  priceText: {
+    color: 'black',
     fontSize: 20,
   },
-  addressTextBox: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: 'center',
+  dateText: {
+    color: 'black',
+    fontSize: 20,
   },
-  addressBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: 'center',
-    alignItems: "center",
-  },
-  mainContent: {
-    paddingHorizontal: "5%",
+  downloadButton: {
+    backgroundColor: '#0047FF', 
     borderRadius: 15,
-    width: "90%",
-    paddingVertical: "10%",
-    marginBottom: "15%",
-    backgroundColor: COLORS.blue,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 19,
-    elevation: 20,
-  }
+    paddingVertical: '4%',
+    width: '80%',
+    marginVertical: 2,
+  },
+  downloadButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });
+
+export default Boleto;

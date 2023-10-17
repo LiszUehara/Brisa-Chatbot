@@ -1,69 +1,80 @@
 import React from 'react';
-import {
-  Text,
-  StatusBar,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {COLORS} from '../utils/C';
-import {useAtom} from 'jotai';
-import {useShowLogin} from '../repo/atom';
-import LoginScreen from './Login';
-import Boleto from './BoletoScreen';
+import { Text, StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { COLORS } from '../utils/C';
+import { useAtom } from 'jotai';
+import { useShowLogin } from '../repo/atom';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
+  const navigation = useNavigation();
   const [showLogin] = useAtom(useShowLogin);
 
-  // Lista de opções
-  const options = [
-    {title: 'Emitir Boleto', component: <Boleto />},
-    // Adicione outras opções aqui
-  ];
+  const navigateToOption = (routeName) => {
+    navigation.navigate(routeName);
+  };
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor={COLORS.blue} hidden={false} />
-      <Text style={styles.header}>Início</Text>
-
-      {showLogin ? (
-        <LoginScreen />
-      ) : (
-        <FlatList
-          data={options}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              style={styles.option}
-              onPress={() => navigateToOption(item.component)}>
-              <Text style={styles.optionText}>{item.title}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      )}
+      <View style={styles.centerContent}>
+        <Text style={styles.chatbotText}>ChatBot</Text>
+        <Text style={styles.chatbotWelcomeText}>
+          Olá, sou um chatbot a serviço da Secretaria de Finanças de Juazeiro do Norte
+        </Text>
+      </View>
+      <View style={styles.bottomContainer}>
+        <View style={styles.option}>
+          <TouchableOpacity onPress={() => navigateToOption('Boleto')}>
+            <Text style={styles.optionText}>Emitir Boleto</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.option}>
+          <TouchableOpacity onPress={() => navigateToOption('ChatApp')}>
+            <Text style={styles.optionText}>Chat</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.option}>
+          <TouchableOpacity onPress={() => navigateToOption('Home')}>
+            <Text style={styles.optionText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
-// Função para navegar para a opção selecionada
-const navigateToOption = () => {
-  // Implemente a navegação para a tela desejada aqui
-};
-
 const styles = StyleSheet.create({
-  header: {
-    fontSize: 20,
+  container: {
+    flex: 1,
+  },
+  centerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chatbotText: {
+    fontSize: 24,
     fontWeight: 'bold',
-    margin: 20,
+  },
+  chatbotWelcomeText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: COLORS.blue,
+    paddingVertical: 10,
   },
   option: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
+    flex: 1,
+    margin: 2,
   },
   optionText: {
     fontSize: 18,
+    color: 'white',
+    textAlign: 'center',
   },
 });

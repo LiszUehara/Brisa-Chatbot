@@ -18,13 +18,14 @@ const LoginScreen = () => {
       try {
         const token = await authenticateUser(registrationNumber);
 
-        // Se a autenticação for bem-sucedida
         console.log('Token de autenticação:', token);
       } catch (error) {
         setInputError('Erro na autenticação: ' + error.message);
       }
     } else {
-      setInputError('Por favor, insira um número de inscrição, CPF ou CNPJ válido.');
+      setInputError(
+        'Por favor, insira um número de inscrição, CPF ou CNPJ válido.',
+      );
     }
   };
 
@@ -40,7 +41,10 @@ const LoginScreen = () => {
         },
       });
 
-      if (response.data.situacao === 'SUCESSO' && response.data.contribuintes.length > 0) {
+      if (
+        response.data.situacao === 'SUCESSO' &&
+        response.data.contribuintes.length > 0
+      ) {
         const user = response.data.contribuintes[0];
         return user; 
       } else {
@@ -52,7 +56,7 @@ const LoginScreen = () => {
   };
 
   const validateInput = (input: string) => {
-    const reInscricao = /^\d{9}$/;
+    //const reInscricao = /^\d{9}$/;
     const reCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     const reCNPJ = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
     const reCPF_numbers = /^\d{11}$/;
