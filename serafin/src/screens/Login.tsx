@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,12 +11,13 @@ import axios from 'axios';
 const LoginScreen = () => {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [inputError, setInputError] = useState('');
-  const [setLoginInputType] = useState('');
+
+  const apiToken = '966988da19301ceec429f3a39649a696';
 
   const handleLogin = async () => {
     if (validateInput(registrationNumber)) {
       try {
-        const token = await authenticateUser(registrationNumber);
+        const token = await authenticateUser(registrationNumber, apiToken);
 
         console.log('Token de autenticação:', token);
       } catch (error) {
@@ -24,20 +25,19 @@ const LoginScreen = () => {
       }
     } else {
       setInputError(
-        'Por favor, insira um número de inscrição, CPF ou CNPJ válido.',
+        'Por favor, insira um número de inscrição, CPF ou CNPJ válido.'
       );
     }
   };
 
-  const authenticateUser = async (input) => {
+  const authenticateUser = async (input, authToken) => {
     try {
-      // Substitua pela chamada real à API
-      const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/contribuites';
-      const apiToken = '966988da19301ceec429f3a39649a696';
+      const apiUrl =
+        'http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes';
 
       const response = await axios.get(apiUrl, {
         headers: {
-          Authorization: `Bearer ${apiToken}`,
+          authToken: authToken,
         },
       });
 
@@ -46,7 +46,7 @@ const LoginScreen = () => {
         response.data.contribuintes.length > 0
       ) {
         const user = response.data.contribuintes[0];
-        return user; 
+        return user;
       } else {
         throw new Error('Nenhum usuário encontrado.');
       }
@@ -55,23 +55,12 @@ const LoginScreen = () => {
     }
   };
 
-  const validateInput = (input: string) => {
+  const validateInput = (input) => {
     //const reInscricao = /^\d{9}$/;
     const reCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     const reCNPJ = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-    const reCPF_numbers = /^\d{11}$/;
-    const reCPNJ_numbers = /^\d{14}$/;
 
-    if (reInscricao.test(input)) {
-      setLoginInputType('inscricao');
-      return true;
-    }
-    if (reCPF_numbers.test(input) || reCPF.test(input)) {
-      setLoginInputType('cpf');
-      return true;
-    }
-    if (reCPNJ_numbers.test(input) || reCNPJ.test(input)) {
-      setLoginInputType('cnpj');
+    if (reCPF.test(input) || reCNPJ.test(input)) {
       return true;
     }
     return false;

@@ -30,12 +30,12 @@ export default function Home() {
           </TouchableOpacity>
         </View>
         <View style={styles.option}>
-          <TouchableOpacity onPress={() => navigateToOption('ChatApp')}>
+          <TouchableOpacity onPress={() => navigateToOption('ChatBot')}>
             <Text style={styles.optionText}>Chat</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.option}>
-          <TouchableOpacity onPress={() => navigateToOption('Home')}>
+          <TouchableOpacity onPress={() => navigateToOption('Login')}>
             <Text style={styles.optionText}>Login</Text>
           </TouchableOpacity>
         </View>

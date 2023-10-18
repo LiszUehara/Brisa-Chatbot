@@ -7,7 +7,7 @@ const apiToken = '966988da19301ceec429f3a39649a696';
 
 const Boleto = () => {
   const [boletoData, setBoletoData] = useState(null);
-  const [dams, setDams] = useState(''); // Estado para armazenar o valor de DAMS
+  const [dams, setDams] = useState(''); 
   const [contribuinte, setContribuinte] = useState(''); // Estado para armazenar o nome do contribuinte
 
   useEffect(() => {

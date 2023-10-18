@@ -188,7 +188,7 @@ const ChatApp = () => {
         },
         {
           headers: {
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           },
         }
       );
