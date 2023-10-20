@@ -108,13 +108,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerIcon: {
-    width: 200,
-    height: 200,
+    marginLeft: 20,
+    width: 60,
+    height: 60,
     zIndex: 10000,
   },
   headerTitle: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 30,
     color: '#000',
   },
   loginButton: {
@@ -285,7 +286,7 @@ const ChatApp = () => {
         />
         <TouchableOpacity style={styles.sendButton}>
           <Image
-            source={require('../svg/iconSerafin.svg')}
+            source={require('../svg/Vector.png')}
             style={styles.sendIcon}
           />
         </TouchableOpacity>
@@ -293,7 +294,7 @@ const ChatApp = () => {
         <TouchableOpacity
           style={styles.clearButton}
           onPress={clearChatMessages}>
-          <Text style={styles.clearButtonText}>L</Text>
+          <Text style={styles.clearButtonText}>Limpar</Text>
         </TouchableOpacity>
       </View>
     </View>
