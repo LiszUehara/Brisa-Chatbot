@@ -56,12 +56,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inputContainer: {
+    height: 90,
+    backgroundColor: '#C7C3C3',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingBottom: 10,
   },
   textInput: {
+    height: 40,
     flex: 1,
     marginRight: 10,
     borderWidth: 1,
@@ -80,24 +83,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   clearButton: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#F00',
     borderRadius: 5,
     padding: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginLeft: 5,
   },
   loadingIndicator: {
     marginRight: 10,
-  },
-  clearButtonText: {
-    color: '#000',
-    textAlign: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 5,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -109,8 +101,8 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     marginLeft: 20,
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     zIndex: 10000,
   },
   headerTitle: {
@@ -259,7 +251,7 @@ const ChatApp = () => {
           source={require('../svg/iconSerafin.png')}
           style={styles.headerIcon}
         />
-        <Text style={styles.headerTitle}>Serafin</Text>
+        <Text style={styles.headerTitle}>SERAFIN</Text>
         <TouchableOpacity style={styles.loginButton}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
@@ -294,7 +286,7 @@ const ChatApp = () => {
         <TouchableOpacity
           style={styles.clearButton}
           onPress={clearChatMessages}>
-          <Text style={styles.clearButtonText}>Limpar</Text>
+          <Image source={require('../svg/clear.png')} style={styles.sendIcon} />
         </TouchableOpacity>
       </View>
     </View>
