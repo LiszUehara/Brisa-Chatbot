@@ -9,46 +9,54 @@ import {
 import axios from 'axios';
 
 const LoginScreen = () => {
-  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [inscricao, setInscricao] = useState('');
   const [inputError, setInputError] = useState('');
+  const [contribuinte, setContribuinte] = useState(null);
 
   const apiToken = '966988da19301ceec429f3a39649a696';
 
   const handleLogin = async () => {
-    if (validateInput(registrationNumber)) {
+    if (validateInput(inscricao)) {
       try {
-        const token = await authenticateUser(registrationNumber, apiToken);
+        const user = await authenticateUser(inscricao, apiToken);
 
-        console.log('Token de autenticação:', token);
+        if (user) {
+          setContribuinte(user);
+        } else {
+          setInputError('Nenhum usuário encontrado.');
+        }
       } catch (error) {
         setInputError('Erro na autenticação: ' + error.message);
       }
     } else {
-      setInputError(
-        'Por favor, insira um número de inscrição, CPF ou CNPJ válido.'
-      );
+      setInputError('Por favor, insira uma inscrição válida.');
     }
   };
 
-  const authenticateUser = async (input, authToken) => {
+  const authenticateUser = async (inscricao, authToken) => {
     try {
-      const apiUrl =
-        'http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes';
+      const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes';
 
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authToken: authToken,
+      const response = await axios.post(
+        apiUrl,
+        {
+          inscricoes: inscricao,
+          nome: '',
+          cpf: '',
+          cnpj: '',
         },
-      });
+        {
+          headers: {
+            'auth-token': authToken,
+          },
+        }
+      );
 
-      if (
-        response.data.situacao === 'SUCESSO' &&
-        response.data.contribuintes.length > 0
-      ) {
+      if (response.data.situacao === 'SUCESSO' && response.data.contribuintes.length > 0) {
         const user = response.data.contribuintes[0];
         return user;
       } else {
-        throw new Error('Nenhum usuário encontrado.');
+        return null;
       }
     } catch (error) {
       throw new Error('Erro ao consultar a API: ' + error.message);
@@ -56,14 +64,10 @@ const LoginScreen = () => {
   };
 
   const validateInput = (input) => {
-    //const reInscricao = /^\d{9}$/;
-    const reCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-    const reCNPJ = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+    // Valide a inscrição conforme necessário
+    // ...
 
-    if (reCPF.test(input) || reCNPJ.test(input)) {
-      return true;
-    }
-    return false;
+    return true; // Altere essa lógica de validação de acordo com suas necessidades
   };
 
   return (
@@ -71,22 +75,29 @@ const LoginScreen = () => {
       <Text style={styles.title}>Login</Text>
       <Text style={styles.subTitle}>Acesse sua conta.</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Número de Inscrição, CPF ou CNPJ</Text>
+        <Text style={styles.label}>Número de Inscrição</Text>
         <TextInput
           style={styles.input}
-          placeholder="Ex: 123456789, 123.456.789-01, 12.345.678/0001-12"
+          placeholder="Ex: 123456789"
           placeholderTextColor="#A5A5A5"
-          value={registrationNumber}
-          onChangeText={(text) => {
-            setRegistrationNumber(text);
-            setInputError('');
-          }}
+          value={inscricao}
+          onChangeText={(text) => setInscricao(text)}
         />
         {inputError ? <Text style={styles.errorText}>{inputError}</Text> : null}
       </View>
       <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
+
+      {contribuinte && (
+        <View style={styles.contribuinteContainer}>
+          <Text style={styles.contribuinteLabel}>Informações do Contribuinte:</Text>
+          <Text>Nome: {contribuinte.pes_nome}</Text>
+          <Text>CPF/CNPJ: {contribuinte.pes_cpfcnpj}</Text>
+          <Text>Endereço: {contribuinte.pes_logradouro}, {contribuinte.pes_numero}</Text>
+          {/* Adicione outros campos conforme necessário */}
+        </View>
+      )}
     </View>
   );
 };
@@ -145,6 +156,14 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
     marginTop: 8,
+  },
+  contribuinteContainer: {
+    marginTop: 20,
+  },
+  contribuinteLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 
