@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   TextInput,
@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,7 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const MAX_MESSAGES = 50;
 
-const ChatMessage = ({ role, content }) => (
+const ChatMessage = ({role, content}) => (
   <View style={role === 'user' ? styles.userMessage : styles.assistantMessage}>
     <Text style={styles.messageText}>{content}</Text>
   </View>
@@ -88,13 +89,6 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     marginRight: 10,
   },
-  clearButton: {
-    backgroundColor: '#F0F0F0',
-    borderRadius: 5,
-    padding: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   clearButtonText: {
     color: '#000',
     textAlign: 'center',
@@ -104,6 +98,42 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 10,
+  },
+  headerIcon: {
+    width: 200,
+    height: 200,
+    zIndex: 10000,
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#000',
+  },
+  loginButton: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 10,
+    width: 80,
+    color: 'blue',
+    borderColor: 'blue',
+    borderWidth: 2,
+  },
+  loginButtonText: {
+    fontSize: 16,
+    color: '#00f',
+    textAlign: 'center',
+  },
+  sendIcon: {
+    width: 20,
+    height: 20,
   },
 });
 
@@ -140,7 +170,10 @@ const ChatApp = () => {
   useEffect(() => {
     saveMessages();
     const inactivityCheckInterval = 10000; // Verificar a cada 10 segundos
-    const intervalId = setInterval(clearChatAfterInactivity, inactivityCheckInterval);
+    const intervalId = setInterval(
+      clearChatAfterInactivity,
+      inactivityCheckInterval,
+    );
 
     return () => clearInterval(intervalId);
   }, [messages]);
@@ -153,7 +186,10 @@ const ChatApp = () => {
     const inactivityTimeout = 3600000; // 1 hora em milissegundos
     const currentTime = new Date();
 
-    if (lastUserInteractionTime && currentTime - lastUserInteractionTime >= inactivityTimeout) {
+    if (
+      lastUserInteractionTime &&
+      currentTime - lastUserInteractionTime >= inactivityTimeout
+    ) {
       clearChatMessages();
     }
   };
@@ -167,7 +203,7 @@ const ChatApp = () => {
       return;
     }
 
-    const userMessage = { role: 'user', content: inputText };
+    const userMessage = {role: 'user', content: inputText};
     const newMessages = [...messages, userMessage];
     setInputText('');
     setIsSending(true);
@@ -183,14 +219,15 @@ const ChatApp = () => {
           model: 'gpt-3.5-turbo',
           messages: [
             ...newMessages,
-            { role: 'assistant', content: 'Serafin está pensando...' },
+            {role: 'assistant', content: 'Serafin está pensando...'},
           ],
         },
         {
           headers: {
-            Authorization: 'Bearer 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',
+            Authorization:
+              'Bearer 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',
           },
-        }
+        },
       );
 
       const assistantMessage = {
@@ -208,40 +245,54 @@ const ChatApp = () => {
       setIsSending(false);
       // Rolando para a última mensagem adicionada
       if (flatListRef.current) {
-        flatListRef.current.scrollToEnd({ animated: true });
+        flatListRef.current.scrollToEnd({animated: true});
       }
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Image
+          source={require('../svg/iconSerafin.png')}
+          style={styles.headerIcon}
+        />
+        <Text style={styles.headerTitle}>Serafin</Text>
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+      </View>
+
       <FlatList
-        ref={flatListRef} // Referência para o FlatList
+        ref={flatListRef}
         data={messages}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ChatMessage role={item.role} content={item.content} />
         )}
         contentContainerStyle={styles.chatContainer}
         onTouchStart={handleUserInteraction}
       />
+
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
           value={inputText}
-          onChangeText={(text) => setInputText(text)}
+          onChangeText={text => setInputText(text)}
           placeholder="Digite sua mensagem..."
           editable={!isSending}
         />
-        {isSending && (
-          <Spinner
-            visible={isSending}
-            textContent={'Enviando...'}
-            textStyle={{ color: '#FFF' }}
+        <TouchableOpacity style={styles.sendButton}>
+          <Image
+            source={require('../svg/iconSerafin.svg')}
+            style={styles.sendIcon}
           />
-        )}
-        <Button title="Enviar" onPress={onSend} disabled={isSending} />
-        <TouchableOpacity style={styles.clearButton} onPress={clearChatMessages}>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.clearButton}
+          onPress={clearChatMessages}>
           <Text style={styles.clearButtonText}>L</Text>
         </TouchableOpacity>
       </View>
