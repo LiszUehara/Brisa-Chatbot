@@ -15,8 +15,13 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const MAX_MESSAGES = 50;
 
+const AssistantIcon = require('../svg/iconSerafin.png');
+
 const ChatMessage = ({role, content}) => (
   <View style={role === 'user' ? styles.userMessage : styles.assistantMessage}>
+    {role === 'assistant' && (
+      <Image source={AssistantIcon} style={styles.Icon} />
+    )}
     <Text style={styles.messageText}>{content}</Text>
   </View>
 );
@@ -32,28 +37,36 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   userMessage: {
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
     backgroundColor: '#007BFF',
     borderRadius: 8,
-    padding: 8,
+    padding: 10,
     marginVertical: 4,
-    maxWidth: '80%',
+    maxWidth: '60%',
     flexDirection: 'row',
     alignItems: 'center',
+    textAlign: 'right',
   },
   assistantMessage: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     backgroundColor: 'blue',
     borderRadius: 8,
     padding: 8,
     marginVertical: 4,
-    maxWidth: '80%',
+    maxWidth: '60%',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft: 10,
+    gap: 10,
   },
   messageText: {
     color: '#FFF',
     flex: 1,
+    fontSize: 16,
+  },
+  Icon: {
+    width: 35,
+    height: 35,
   },
   inputContainer: {
     height: 90,
@@ -62,31 +75,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingBottom: 10,
+    justifyContent: 'center',
   },
   textInput: {
-    height: 40,
+    height: 50,
     flex: 1,
-    marginRight: 10,
+    marginLeft: 10,
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 5,
     backgroundColor: '#FFF',
   },
   sendButton: {
-    backgroundColor: '#007BFF',
     borderRadius: 5,
     padding: 10,
+    position: 'absolute',
+    right: 60,
+    top: 20,
   },
   sendButtonText: {
     color: '#FFF',
     textAlign: 'center',
   },
   clearButton: {
-    backgroundColor: '#F00',
     borderRadius: 5,
     padding: 10,
-    marginLeft: 5,
+    marginLeft: 8,
+  },
+  clearButtonText: {
+    fontSize: 8,
+    paddingLeft: -20,
+    color: '#000',
   },
   loadingIndicator: {
     marginRight: 10,
@@ -218,16 +238,14 @@ const ChatApp = () => {
         {
           headers: {
             Authorization:
-              'Bearer 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',
+              'Bearer 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',
           },
         },
       );
 
       const assistantMessage = {
         role: 'assistant',
-        content:
-          'Serafin: ' +
-          (response.data.choices[0]?.message?.content || 'Sem resposta'),
+        content: response.data.choices[0]?.message?.content || 'Sem resposta',
       };
 
       const updatedMessages = [...newMessages, assistantMessage];
@@ -276,7 +294,7 @@ const ChatApp = () => {
           placeholder="Digite sua mensagem..."
           editable={!isSending}
         />
-        <TouchableOpacity style={styles.sendButton}>
+        <TouchableOpacity style={styles.sendButton} onPress={onSend}>
           <Image
             source={require('../svg/Vector.png')}
             style={styles.sendIcon}
@@ -287,6 +305,7 @@ const ChatApp = () => {
           style={styles.clearButton}
           onPress={clearChatMessages}>
           <Image source={require('../svg/clear.png')} style={styles.sendIcon} />
+          <Text style={styles.clearButtonText}>Limpar</Text>
         </TouchableOpacity>
       </View>
     </View>
