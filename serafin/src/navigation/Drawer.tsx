@@ -4,6 +4,9 @@ import Home from '../screens/HomeScreen';
 import ChatApp from '../screens/ChatScreen';
 import Boleto from '../screens/BoletoScreen';
 import Login from '../screens/Login';
+import CustomDrawerContent from './CustomDrawer';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const Drawer = createDrawerNavigator();
 const screenOptions = {
@@ -19,11 +22,63 @@ const screenOptions = {
 };
 export default function MyDrawer() {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Início" component={Home} />
-      <Drawer.Screen name="ChatBot" component={ChatApp} />
-      <Drawer.Screen name="Boleto" component={Boleto} />
-      <Drawer.Screen name="Login" component={Login} />
+    <Drawer.Navigator 
+      screenOptions={{
+        headerTintColor: "white",
+        drawerActiveTintColor: "#0000ff",
+        headerStyle:{
+          backgroundColor:"#0000ff"
+        },
+      }}
+      drawerContent={(props) => <CustomDrawerContent {...props} 
+      drawerContentOptions={{
+      drawerActiveTintColor: '#0000ff',}}/>
+    }>
+      <Drawer.Screen 
+        name="Início" 
+        component={Home} 
+        options={{
+          title: "Início",
+          drawerIcon: ({focused, size}) => ( 
+            <Icon name="home" 
+            size={size} 
+            color={focused ? '#0000ff' : 'gray'} />
+          ),
+        
+      }}/>
+      <Drawer.Screen 
+        name="Login" 
+        component={Login} 
+        options={{
+          title: "Login",
+          drawerIcon: ({focused, size}) => ( 
+            <Icon name="login-variant" 
+            size={size} 
+            color={focused ? '#0000ff' : 'gray'} />
+          ),
+      }}/>
+      <Drawer.Screen 
+        name="ChatBot" 
+        component={ChatApp} 
+        options={{
+          title: "ChatBot",
+          drawerIcon: ({focused, size}) => ( 
+            <Icon name="message-text" 
+            size={size} 
+            color={focused ? '#0000ff' : 'gray'} />
+          ),
+      }}/>
+      <Drawer.Screen 
+        name="Boleto" 
+        component={Boleto} 
+        options={{
+          title: "Boleto",
+          drawerIcon: ({focused, size}) => ( 
+            <Icon name="barcode" 
+            size={size} 
+            color={focused ? '#0000ff' : 'gray'} />
+          ),
+      }}/>
     </Drawer.Navigator>
   );
 }
