@@ -6,6 +6,8 @@ import Boleto from '../screens/BoletoScreen';
 import Login from '../screens/Login';
 import CustomDrawerContent from './CustomDrawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import NewChat from '../screens/NewChat';
+import Chat from '../screens/Chat';
 
 
 const Drawer = createDrawerNavigator();
@@ -59,7 +61,7 @@ export default function MyDrawer() {
       }}/>
       <Drawer.Screen 
         name="ChatBot" 
-        component={ChatApp} 
+        component={Chat} 
         options={{
           title: "ChatBot",
           drawerIcon: ({focused, size}) => ( 
