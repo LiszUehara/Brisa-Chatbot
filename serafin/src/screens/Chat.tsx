@@ -8,8 +8,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import OptionsMenu from "react-native-options-menu";
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import LoginScreen from './Login';
+import iconSerafin from '../svg/iconSerafin.png'; // Ajuste o caminho conforme necessário
+import { Bubble } from 'react-native-gifted-chat';
 
 import { useNavigation } from '@react-navigation/native';
+
+
+const MAX_MESSAGES = 50;
+
 
 const Chat= () => {
 
@@ -61,8 +67,8 @@ const Chat= () => {
   }, [navigation]);
 
   const clearChat = () => {
+    setMessages([]);
   };
-
 
   const renderFooter = () => {
     if (isTyping) {
@@ -76,13 +82,34 @@ const Chat= () => {
     return null;
   };
   useEffect(() => {
+
     loadStoredMessages();
   }, []);
 
   const loadStoredMessages = async () => {
-    const storedMessages = await AsyncStorage.getItem('messages');
-    if (storedMessages) {
-      setMessages(JSON.parse(storedMessages));
+    try {
+      const storedMessages = await AsyncStorage.getItem('messages');
+      if (storedMessages) {
+        setMessages(JSON.parse(storedMessages));
+      }
+    } catch (error) {
+      console.error('Erro ao carregar mensagens armazenadas:', error);
+
+    }finally{
+
+    setMessages([
+        {
+          _id: 1,
+          text: 'Olá! Sou o Serafin, a Inteligência artificial da Sefin. Como Posso te ajudar?\n\n É só digitar em poucas palavras o que precisa.',
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'Serafin',
+            avatar: iconSerafin,
+          },
+        },
+      ]);
+
     }
   };
 
@@ -109,7 +136,7 @@ const Chat= () => {
         {
           headers: {
             Authorization:
-              'Bearer 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',
+              'Bearer sk-TOKEN',
           },
         },
       );
@@ -123,17 +150,16 @@ const Chat= () => {
     } catch (error) {
       console.error('Erro ao enviar mensagem para o assistente:', error);
     } finally {
-
     }
   };
-
   return (
-<GiftedChat
-  messages={messages}
-  onSend={messages => onSend(messages)}
-  user={{ _id: 1 }}
-  placeholder="Digite sua mensagem aqui..." 
-/>
+    <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{ _id: 1 }}
+        placeholder="Digite sua mensagem aqui..." 
+    />
+
   );
 };
 

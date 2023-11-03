@@ -18,9 +18,28 @@ const Home= () => {
     navigation.navigate(routeName);
   };
 
-  const renderItem = ({ item }) => (
-    <Item title={item.title} description={item.description} color={item.color}/>
-  );
+  const renderItem = ({ item }) => {
+    let screenName = '';
+    switch (item.id) {
+      case '1':
+        screenName = 'Boleto';
+        break;
+      case '2':
+        screenName = 'ChatBot';
+        break;
+      case '3':
+        screenName = 'Outros';
+        break;
+    }
+    return (
+      <Item
+        title={item.title}
+        description={item.description}
+        color={item.color}
+        onPress={() => navigateToOption(screenName)}
+      />
+    );
+  };
 
   return (
     <FlatList

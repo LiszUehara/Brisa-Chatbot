@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
-import Home from './src/screens/HomeScreen';
+import Home from './src/screens/old/HomeScreen';
 import Route from './src/screens/Route';
 import MyDrawer from './src/navigation/Drawer';
 import { COLORS } from './src/utils/C';

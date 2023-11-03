@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS } from '../utils/C';
+import { COLORS } from '../../utils/C';
 import { useAtom } from 'jotai';
-import { useShowLogin } from '../repo/atom';
+import { useShowLogin } from '../../repo/atom';
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeOld() {

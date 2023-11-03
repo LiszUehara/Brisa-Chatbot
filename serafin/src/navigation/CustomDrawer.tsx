@@ -3,7 +3,6 @@ import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navi
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 export default function CustomDrawerContent(props) {
     return (
         <View style={{flex:1}}>
@@ -13,7 +12,7 @@ export default function CustomDrawerContent(props) {
                         <Icon name="account-circle" color='#0000ff' size={50}/>
                     </View>
                     <View style={{marginLeft:15, flexDirection: 'row', alignItems: 'center'}}>
-                        <Text>User info</Text>
+                        <Text>Olá, seja bem vindo!</Text>
                     </View>
                 </View>
                 <DrawerItemList {...props} />

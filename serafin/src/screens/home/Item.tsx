@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Item = ({ title, description, color }) => (
-  <TouchableOpacity style={styles.item}>
+const Item = ({ title, description, color, onPress }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
     <LinearGradient
       colors={color}
       style={styles.gradient}
