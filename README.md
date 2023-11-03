@@ -4,7 +4,7 @@
 
 O Chatbot da Secretaria de Finanças é uma solução inovadora desenvolvida para o Estado do Ceará, especificamente para a cidade de Juazeiro do Norte. Este aplicativo utiliza tecnologia de ponta em aprendizado de máquina e inteligência artificial 🧠, através da integração com a GPT (Generative Pre-trained Transformer) da OpenAI, para facilitar a comunicação com os cidadãos e otimizar os serviços financeiros do estado.
 
-![Chatbot Interface](imagens/chat.png)
+![Chatbot Interface](imagens/chat.jpeg)
 
 ## Funcionalidades 🚀
 
