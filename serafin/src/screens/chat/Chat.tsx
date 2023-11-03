@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import iconSerafin from '../../svg/iconSerafin.svg'; 
 import { useNavigation } from '@react-navigation/native';
+import API_KEY from '../../config';
 
 const MAX_MESSAGES = 50;
 
@@ -104,7 +105,7 @@ const renderDay = (props) => {
         },
         {
           headers: {
-            'Authorization': '',
+            'Authorization': API_KEY,
             'Content-Type': 'application/json',
           },
         },
