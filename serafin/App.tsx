@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { Button, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/Login';
 import Home from './src/screens/HomeScreen';
 import Route from './src/screens/Route';
 import MyDrawer from './src/navigation/Drawer';
-
+import { COLORS } from './src/utils/C';
+import { MenuProvider } from 'react-native-popup-menu';
 // function HomeScreen({ navigation }) {
 //   return (
 //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -28,13 +30,16 @@ import MyDrawer from './src/navigation/Drawer';
 //       <Stack.Screen name="Route" component={Route} options={{headerShown: false}}/>
 //     </Stack.Navigator>
 //     </NavigationContainer>
-
 //   );
 // }
+
 export default function App(){
   return(
+    <MenuProvider>
 <NavigationContainer>
+<StatusBar barStyle="light-content" backgroundColor={COLORS.blue}  />
   <MyDrawer/>
 </NavigationContainer>
+</MenuProvider>
   );
 }

@@ -6034,10 +6034,20 @@ react-native-lightbox-v2@0.9.0:
   resolved "https://registry.npmjs.org/react-native-lightbox-v2/-/react-native-lightbox-v2-0.9.0.tgz"
   integrity sha512-Fc5VFHFj2vokS+OegyTsANKb1CYoUlOtAv+EBH5wtpJn1b5cey6jVXH7136G5+8OC9JmKWSgKHc5thFwOoZTUg==
 
+react-native-linear-gradient@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz"
+  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
+
 react-native-loading-spinner-overlay@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-3.0.1.tgz"
   integrity sha512-4GdR54HQnKg2HPSSisVizfTLuyhSh4splY9eb8mKiYF1Ihjn/5EmdNo5bN3S7uKPFRC3WLzIZIouX6G6fXfnjw==
+
+react-native-options-menu@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/react-native-options-menu/-/react-native-options-menu-2.0.2.tgz"
+  integrity sha512-aqufug1xxote2Oz9WTpoh/B4GTA1RZiF6Ba69yUZYyHvg7MdGnLVLMSA5fDRirF5EGCn2Ay+f9DExWf1DjQI6A==
 
 react-native-parsed-text@0.0.22:
   version "0.0.22"
@@ -6045,6 +6055,11 @@ react-native-parsed-text@0.0.22:
   integrity sha512-hfD83RDXZf9Fvth3DowR7j65fMnlqM9PpxZBGWkzVcUTFtqe6/yPcIoIAgrJbKn6YmtzkivmhWE2MCE4JKBXrQ==
   dependencies:
     prop-types "^15.7.x"
+
+react-native-popup-menu@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.npmjs.org/react-native-popup-menu/-/react-native-popup-menu-0.16.1.tgz"
+  integrity sha512-xRS7mRh0exwu7Iw8PPVHdM11d13A/KzYjy0/fZx3zVtxISxPkNaDGayau6oa7HqO3Nj0oS9ulFCYjcQfG6vahA==
 
 react-native-reanimated@^3.5.4, "react-native-reanimated@>= 1.0.0":
   version "3.5.4"
@@ -6092,7 +6107,7 @@ react-native-typing-animation@0.1.7:
   resolved "https://registry.npmjs.org/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz"
   integrity sha512-4H3rF9M+I2yAZpYJcY0Mb29TXkn98QK12rrKSY6LZj1BQD9NNmRZuNXzwX4XHapsIz+N/J8M3p27FOQPbfzqeg==
 
-react-native-vector-icons@^10.0.0:
+react-native-vector-icons@^10.0.1:
   version "10.0.1"
   resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.0.1.tgz"
   integrity sha512-oqVyhSgK1wLm7JuN5yep+BCWb4F4C6qi2/mHGsdNqneGWn3MI9VVMX+AIkw0q9GsbY6QjhNd5sUanjRyDJfuUg==
@@ -6100,7 +6115,7 @@ react-native-vector-icons@^10.0.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@^0.72.5, react-native@>=0.42.0, react-native@>=0.59.0, react-native@>=0.61.0:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@^0.72.5, react-native@>=0.20.0, react-native@>=0.42.0, react-native@>=0.59.0, react-native@>=0.61.0:
   version "0.72.5"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.5.tgz"
   integrity sha512-oIewslu5DBwOmo7x5rdzZlZXCqDIna0R4dUwVpfmVteORYLr4yaZo5wQnMeR+H7x54GaMhmgeqp0ZpULtulJFg==

@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 import { useShowLogin } from '../repo/atom';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Home() {
+export default function HomeOld() {
   const navigation = useNavigation();
   const [showLogin] = useAtom(useShowLogin);
 

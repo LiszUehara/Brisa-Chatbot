@@ -8,6 +8,7 @@ import CustomDrawerContent from './CustomDrawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NewChat from '../screens/NewChat';
 import Chat from '../screens/Chat';
+import HomeNew from '../screens/home/NewHome';
 
 
 const Drawer = createDrawerNavigator();
@@ -29,7 +30,7 @@ export default function MyDrawer() {
         headerTintColor: "white",
         drawerActiveTintColor: "#0000ff",
         headerStyle:{
-          backgroundColor:"#0000ff"
+          backgroundColor:"#1a3495"
         },
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} 
@@ -38,7 +39,7 @@ export default function MyDrawer() {
     }>
       <Drawer.Screen 
         name="Início" 
-        component={Home} 
+        component={HomeNew} 
         options={{
           title: "Início",
           drawerIcon: ({focused, size}) => ( 
