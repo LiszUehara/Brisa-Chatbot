@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import OptionsMenu from "react-native-options-menu";
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import LoginScreen from './Login';
-import iconSerafin from '../svg/iconSerafin.png'; // Ajuste o caminho conforme necessário
+import iconSerafin from '../svg/iconSerafin.svg'; 
 import { Bubble } from 'react-native-gifted-chat';
 
 import { useNavigation } from '@react-navigation/native';
@@ -22,7 +22,7 @@ const Chat= () => {
     const navigation = useNavigation();
 
   const [messages, setMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState();
+  const [isTyping, setIsTyping] = useState(false);
 
   const navigateToOption = (routeName) => {
     navigation.navigate(routeName);
@@ -119,39 +119,48 @@ const Chat= () => {
 
   const onSend = useCallback((messagesToSend = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messagesToSend));
-    sendToAssistant(messagesToSend);
+    sendToAssistant(messagesToSend[messagesToSend.length - 1].text);
   }, []);
 
-  const sendToAssistant = async (newMessages) => {
+  const sendToAssistant = async (text) => {
+    setIsTyping(true); // Indica que o assistente está "digitando"
     try {
       const response = await axios.post(
-        'https://api.openai.com/v1/chat/completions',
+        'https://api.openai.com/v1/messages',
         {
           model: 'gpt-3.5-turbo',
-          messages: [
-            ...newMessages,
-            {role: 'assistant', content: 'Serafin está pensando...'},
-          ],
+          input: text,
         },
         {
           headers: {
-            Authorization:
-              'Bearer sk-TOKEN',
+            'Authorization': 'Bearer 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',
+            'Content-Type': 'application/json',
           },
         },
       );
 
-      const assistantMessage = {
-        role: 'assistant',
-        content: response.data.choices[0]?.message?.content || 'Sem resposta',
-      };
-      const updatedMessages = [...newMessages, assistantMessage];
-      setMessages(updatedMessages);
+      if (response.data.choices && response.data.choices.length > 0) {
+        const reply = response.data.choices[0].message.content;
+        const assistantMessage = {
+          _id: messages.length + 1,
+          text: reply,
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'Serafin',
+            avatar: iconSerafin,
+          },
+        };
+
+        setMessages(previousMessages => GiftedChat.append(previousMessages, [assistantMessage]));
+      }
     } catch (error) {
       console.error('Erro ao enviar mensagem para o assistente:', error);
     } finally {
+      setIsTyping(false); // Indica que o assistente terminou de "digitar"
     }
   };
+
   return (
     <GiftedChat
         messages={messages}

@@ -62,7 +62,7 @@ export default function MyDrawer() {
       }}/>
       <Drawer.Screen 
         name="ChatBot" 
-        component={Chat} 
+        component={ChatApp} 
         options={{
           title: "ChatBot",
           drawerIcon: ({focused, size}) => ( 
