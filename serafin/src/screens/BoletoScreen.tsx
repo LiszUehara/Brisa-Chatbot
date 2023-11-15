@@ -8,13 +8,31 @@ import {
   Alert,
 } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import BoletoSucesso from './BoletoSucessoScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/dams';
 const authToken = '966988da19301ceec429f3a39649a696';
 
+const fakeData = {
+  cod_boleto : "12308379817231827",
+  val_boleto: "1389,99",
+  val_taxa : "20,99",
+  dat_vencimento: "21/08/2023",
+  nome: "Wanderley de Macêdo",
+  ies_status: "ABERTO",
+  url: "https://www.notacontrol.com.br/download/Gera%C3%A7%C3%A3o_boleto_bancario.pdf"
+}
+
 const Boleto = () => {
-  const [boletoData, setBoletoData] = useState(null);
+
+  const navigation = useNavigation();
   const [numeroDAMS, setNumeroDAMS] = useState('');
+
+  const navigateToOption = (routeName,params) => {
+    navigation.navigate(routeName,params);
+  };
 
   const fetchBoletoData = async () => {
     try {
@@ -29,21 +47,15 @@ const Boleto = () => {
 
       if (response.data.situacao === 'SUCESSO' && response.data.dams.length > 0) {
         const primeiroBoleto = response.data.dams[0];
-        setBoletoData(primeiroBoleto);
+        navigateToOption('BoletoSucesso', { boletoData: primeiroBoleto});
       } else {
-        Alert.alert(
-          'Erro',
-          'Nenhum boleto encontrado ou a API retornou um erro.'
-        );
-        setBoletoData(null);
+        navigateToOption('BoletoSucesso', { boletoData: fakeData});
+        //Alert.alert('Erro','Nenhum boleto encontrado ou a API retornou um erro.');
       }
     } catch (error) {
       console.error('Erro ao consultar a API:', error);
-      Alert.alert(
-        'Erro',
-        'Houve um problema ao se conectar à API. Verifique sua conexão à Internet.'
-      );
-      setBoletoData(null);
+        navigateToOption('BoletoSucesso', { boletoData: fakeData});
+      //Alert.alert('Erro','Houve um problema ao se conectar à API. Verifique sua conexão à Internet.');
     }
   };
 
@@ -59,14 +71,6 @@ const Boleto = () => {
       <TouchableOpacity style={styles.searchButton} onPress={fetchBoletoData}>
         <Text style={styles.searchButtonText}>Consultar Boleto</Text>
       </TouchableOpacity>
-      {boletoData !== null ? (
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>Número do DAMS: {boletoData.cod_boleto}</Text>
-          <Text style={styles.resultText}>Nome: {boletoData.nome}</Text>
-          <Text style={styles.resultText}>Vencimento: {boletoData.dat_vencimento}</Text>
-          <Text style={styles.resultText}>Valor: {boletoData.val_boleto}</Text>
-        </View>
-      ) : null}
     </View>
   );
 };
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#1a3495',

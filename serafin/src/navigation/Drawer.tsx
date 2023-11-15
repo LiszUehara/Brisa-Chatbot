@@ -9,9 +9,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NewChat from '../screens/chat/Chat';
 import Chat from '../screens/chat/Chat';
 import HomeNew from '../screens/home/NewHome';
+import BoletoStack from './BoletoStack';
 
 
 const Drawer = createDrawerNavigator();
+
 const screenOptions = {
   tabBarStyle: {
     backgroundColor: '#0000ff',
@@ -73,7 +75,7 @@ export default function MyDrawer() {
       }}/>
       <Drawer.Screen 
         name="Boleto" 
-        component={Boleto} 
+        component={BoletoStack} 
         options={{
           title: "Boleto",
           drawerIcon: ({focused, size}) => ( 
@@ -82,6 +84,7 @@ export default function MyDrawer() {
             color={focused ? '#0000ff' : 'gray'} />
           ),
       }}/>
+
     </Drawer.Navigator>
   );
 }

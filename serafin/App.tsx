@@ -9,6 +9,8 @@ import Route from './src/screens/Route';
 import MyDrawer from './src/navigation/Drawer';
 import { COLORS } from './src/utils/C';
 import { MenuProvider } from 'react-native-popup-menu';
+
+const stack = createStackNavigator();
 // function HomeScreen({ navigation }) {
 //   return (
 //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
