@@ -9,6 +9,8 @@ O Chatbot da Secretaria de Finanças é uma solução inovadora desenvolvida par
 <img src="images/login.jpeg" width="200" /> 
 <img src="images/boleto.jpeg" width="200" /> 
 <img src="images/drawer.jpeg" width="200" /> 
+  <img src="images/boletoAceito.jpeg" width="200" /> 
+  <img src="images/boletoAceito2.jpeg" width="200" /> 
 </p>
 
 ## Funcionalidades 🚀
