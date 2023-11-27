@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { GiftedChat, Send, Day } from 'react-native-gifted-chat';
+import { GiftedChat } from 'react-native-gifted-chat';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
@@ -7,51 +7,35 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
-import API_KEY from '../../config';
-
-const MAX_MESSAGES = 50;
 
 const Chat = () => {
-
   const navigation = useNavigation();
 
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [showDate, setShowDate] = useState(true);
-
-  const navigateToOption = (routeName) => {
-    navigation.navigate(routeName);
-  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-
         <Menu>
           <MenuTrigger>
             <TouchableOpacity style={{ marginRight: 10 }}>
               <Text style={{ fontSize: 24, color: 'white' }}>⋮</Text>
             </TouchableOpacity>
           </MenuTrigger>
-          <MenuOptions >
-
-
+          <MenuOptions>
             <MenuOption onSelect={() => navigateToOption('Login')} >
               <View style={styles.menuOptionStyle}>
                 <Icon name="login" size={16} color="#000" />
                 <Text style={styles.menuOptionText}>Fazer Login</Text>
               </View>
             </MenuOption>
-
-
             <MenuOption onSelect={() => clearChat()} >
               <View style={styles.menuOptionStyle}>
                 <Icon name="delete" size={16} color="#000" />
                 <Text style={styles.menuOptionText}>Limpar Chat</Text>
               </View>
             </MenuOption>
-
-
           </MenuOptions>
         </Menu>
       ),
@@ -61,16 +45,20 @@ const Chat = () => {
     });
   }, [navigation]);
 
+  const navigateToOption = (routeName) => {
+    navigation.navigate(routeName);
+  };
+
   const clearChat = () => {
     setMessages([]);
   };
 
-  const renderFooter = (props) => {
+  const renderFooter = () => {
     if (isTyping) {
       return (
         <View style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={styles.digitando}>Serafin está digitando...</Text>
-      </View>
+          <Text style={styles.digitando}>Serafin está digitando...</Text>
+        </View>
       );
     }
     return null;
@@ -82,17 +70,17 @@ const Chat = () => {
   }, []);
 
   const sendToAssistant = async (text) => {
-    setIsTyping(true)
+    setIsTyping(true);
     try {
       const response = await axios.post(
         'https://api.openai.com/v1/chat/completions',
         {
-          model: 'gpt-3.5-turbo',
+          model: 'ft:gpt-3.5-turbo-1106:personal::8OHQ3bAb',
           messages: [{ role: 'user', content: text }],
         },
         {
           headers: {
-            'Authorization': API_KEY,
+            'Authorization': 'Bearer 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',
             'Content-Type': 'application/json',
           },
         },
@@ -111,6 +99,7 @@ const Chat = () => {
       }]));
     } catch (error) {
       console.error('Erro ao enviar mensagem para o assistente:', error);
+      // Trate o erro conforme necessário (exibindo uma mensagem ao usuário, etc.)
     } finally {
       setIsTyping(false);
     }
@@ -136,38 +125,13 @@ const Chat = () => {
 };
 
 const styles = StyleSheet.create({
-
   digitando: {
     color: '#ffffff',
-  },
-  dayContainer: {
-    backgroundColor: '#e6e6e6',
-    borderRadius: 15,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    alignSelf: 'center',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  dayText: {
-    color: '#000',
-    fontSize: 12,
-    fontWeight: 'bold',
   },
   imageBackground: {
     flex: 1,
     width: '100%',
     height: '100%',
-  },
-  menuTrigger: {
-    padding: 10,
-  },
-  menuIcon: {
-    fontSize: 24,
-    color: 'white',
-  },
-  menuOptions: {
-    marginTop: 50,
   },
   menuOptionStyle: {
     flexDirection: 'row',
