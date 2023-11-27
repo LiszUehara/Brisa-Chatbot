@@ -46,7 +46,7 @@ const Home= () => {
       data={data}
       renderItem={renderItem}
       keyExtractor={item => item.id}
-      // outros props que você pode precisar
+    //outros
     />
   );
 };

@@ -29,43 +29,37 @@ const SerafinFirstOptions = ({ navigation, route }) => {
 
       {route.params.option == "1-1" && (
         <OptionsCard
-          onPress={() => {
-          }}
+          onPress={() => openLink('https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu')}
           text={'- Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, depois\n' +
             'toque em "Segunda Via de Boleto", coloque a inscrição do imóvel ou o seu CPF, clique em\n' +
             'consultar. Você terá acesso aos débitos ativos e últimos lançamentos.\n' +
-            'Se preferir, toque no link abaixo que te levo até lá:\n' +
-            'https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu'}
+            'Se preferir, toque no botão abaixo.'}
         />
       )}
 
       {route.params.option == "1-2" && (
         <OptionsCard
-          onPress={() => {
-          }}
+          onPress={() => openLink('https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu')}
           text={'- Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, depois\n' +
             'toque em "Segunda Via de Boleto", coloque a inscrição do imóvel ou o seu CPF, clique em\n' +
             'consultar. Você terá acesso aos débitos ativos e últimos lançamentos.\n' +
-            'Se preferir, toque no link abaixo que te levo até lá:\n' +
-            'https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu'}
+            'Se preferir, toque no botão abaixo.'}
         />
       )}
 
       {route.params.option == "1-3" && (
         <>
           <OptionsCard
-            onPress={() => {
-            }}
+            onPress={() => openLink('https://meuvaptvupt.com.br/pagina/agendamento')}
             text={'- Estamos com o Programa de Recuperação Fiscal (Refis) até o dia 06/11/2023, possibilitando\n' +
               'descontos de até 100% dos juros e multas, além de parcelamentos.\n' +
               'Para fazer a adesão o contribuinte deve comparecer com documento oficial com foto, no Vapt\n' +
-              'Vupt ou na sede da Secretaria de Finanças.'}
+              'Vupt ou na sede da Secretaria de Finanças.\n' +
+              'Se preferir, toque no botão abaixo para agendar seu atendimento.'}
           />
           <OptionsCard
             onPress={() => openLink('https://meuvaptvupt.com.br/pagina/agendamento')}
-            text={'- Lembrando que para atendimento no Vapt Vupt é necessário agendamento prévio. Segue\n' +
-              'abaixo o link para agendar seu atendimento:\n' +
-              'https://meuvaptvupt.com.br/pagina/agendamento'}
+            text={'Agendar Atendimento'}
           />
         </>
       )}
@@ -76,6 +70,7 @@ const SerafinFirstOptions = ({ navigation, route }) => {
         <View>
           <OptionsCard
             onPress={() => {
+              // Handle the case when the user is helped
             }}
             text={"Te ajudei ?"}
           />
@@ -95,15 +90,26 @@ const SerafinFirstOptions = ({ navigation, route }) => {
       )}
 
       {help == true ? (
-        <OptionsCard
-          onPress={() => {
-          }}
-          text={"- Quando precisar, é só falar."}
-        />
+        <View>
+          <OptionsCard
+            onPress={() => {
+              // Handle the case when the user needs more help
+            }}
+            text={"- Quando precisar, é só falar."}
+          />
+          <OptionsCard
+            onPress={() => {
+              
+              navigation.navigate('FirstOptions');
+            }}
+            text={"Voltar ao Menu Inicial"}
+          />
+        </View>
       ) : help == false ? (
         <View>
           <OptionsCard
             onPress={() => {
+              
             }}
             text={
               "Poxa, tente perguntar de outra forma, pode dar certo. Caso precise, ligue para o fone\n" +
@@ -111,10 +117,11 @@ const SerafinFirstOptions = ({ navigation, route }) => {
             }
           />
           <TouchableOpacity onPress={openWhatsApp}>
-            <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>https://wa.me/558831990367</Text>
+            <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Fale conosco no WhatsApp</Text>
           </TouchableOpacity>
           <OptionsCard
             onPress={() => {
+              
             }}
             text={" ou nos contate através do WhatsApp."}
           />

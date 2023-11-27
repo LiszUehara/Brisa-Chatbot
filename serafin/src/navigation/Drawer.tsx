@@ -10,6 +10,8 @@ import NewChat from '../screens/chat/Chat';
 import Chat from '../screens/chat/Chat';
 import HomeNew from '../screens/home/NewHome';
 import BoletoStack from './BoletoStack';
+import SerafinFirstOptions from "../screens/chat/FirstOptions";
+import ChatStack from "./ChatStack";
 
 
 const Drawer = createDrawerNavigator();
@@ -27,7 +29,7 @@ const screenOptions = {
 };
 export default function MyDrawer() {
   return (
-    <Drawer.Navigator 
+    <Drawer.Navigator
       screenOptions={{
         headerTintColor: "white",
         drawerActiveTintColor: "#0000ff",
@@ -35,52 +37,52 @@ export default function MyDrawer() {
           backgroundColor:"#1a3495"
         },
       }}
-      drawerContent={(props) => <CustomDrawerContent {...props} 
+      drawerContent={(props) => <CustomDrawerContent {...props}
       drawerContentOptions={{
       drawerActiveTintColor: '#0000ff',}}/>
     }>
-      <Drawer.Screen 
-        name="Início" 
-        component={HomeNew} 
+      <Drawer.Screen
+        name="Início"
+        component={HomeNew}
         options={{
           title: "Início",
-          drawerIcon: ({focused, size}) => ( 
-            <Icon name="home" 
-            size={size} 
+          drawerIcon: ({focused, size}) => (
+            <Icon name="home"
+            size={size}
             color={focused ? '#0000ff' : 'gray'} />
           ),
-        
+
       }}/>
-      <Drawer.Screen 
-        name="Login" 
-        component={Login} 
+      <Drawer.Screen
+        name="Login"
+        component={Login}
         options={{
           title: "Login",
-          drawerIcon: ({focused, size}) => ( 
-            <Icon name="login-variant" 
-            size={size} 
+          drawerIcon: ({focused, size}) => (
+            <Icon name="login-variant"
+            size={size}
             color={focused ? '#0000ff' : 'gray'} />
           ),
       }}/>
-      <Drawer.Screen 
-        name="ChatBot" 
-        component={Chat} 
+      <Drawer.Screen
+        name="Serafin"
+        component={ChatStack}
         options={{
-          title: "ChatBot",
-          drawerIcon: ({focused, size}) => ( 
-            <Icon name="message-text" 
-            size={size} 
+          title: "Serafin",
+          drawerIcon: ({focused, size}) => (
+            <Icon name="message-text"
+            size={size}
             color={focused ? '#0000ff' : 'gray'} />
           ),
       }}/>
-      <Drawer.Screen 
-        name="Boleto" 
-        component={BoletoStack} 
+      <Drawer.Screen
+        name="Boleto"
+        component={BoletoStack}
         options={{
           title: "Boleto",
-          drawerIcon: ({focused, size}) => ( 
-            <Icon name="barcode" 
-            size={size} 
+          drawerIcon: ({focused, size}) => (
+            <Icon name="barcode"
+            size={size}
             color={focused ? '#0000ff' : 'gray'} />
           ),
       }}/>
