@@ -9,10 +9,65 @@ import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
 
 const Chat = () => {
+
+  const atendimentoFalas = `
+  1. Atendimento sobre IPTU
+  2. Atendimento sobre ITBI
+  3. Atendimento sobre REFIS
+  4. Agendar atendimento no Vapt Vupt
+  5. Consultar Boleto
+  6. Outros`
+
   const navigation = useNavigation();
 
   const [messages, setMessages] = useState([]);
+  const [preMessages, setpreMessages] = useState([
+    {
+      _id: 1,
+      text: atendimentoFalas,
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: 'Serafin',
+        avatar: iconSerafin,
+      },
+    },
+    {
+      _id: 2,
+      text: "Olá, eu sou SERAFIN, a inteligência artificial da Secretaria de Finanças, e estou aqui para te ajudar com dúvidas sobre diversos assuntos fiscais, como IPTU, ITBI, ISS, renegociação e prazo.\n\n Qual a sua dúvida?\n\n Porfavor insira alguma das opções abaixo:",
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: 'Serafin',
+        avatar: iconSerafin,
+      },
+    },
+  ]);
+
   const [isTyping, setIsTyping] = useState(false);
+
+const simulateSendToAssistant = async (text) => {
+    setIsTyping(true);
+    try {
+      const reply = text
+      setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
+        _id: previousMessages.length+1,
+        text: reply,
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Serafin',
+          avatar: iconSerafin,
+        },
+      }]));
+
+    } catch (error) {
+      console.error('Erro ao enviar mensagem para o assistente:', error);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,6 +124,58 @@ const Chat = () => {
     sendToAssistant(newMessages[0].text);
   }, []);
 
+  const onSendPreMessages = useCallback((newMessages = []) => {
+
+    const simulateSendToAssistantWithDelay = (message, delay) => {
+      setTimeout(() => {
+        simulateSendToAssistant(message);
+      }, delay);
+    };
+
+    setpreMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+
+    if(firstTime){
+    switch (newMessages[0].text) {
+      case '1':
+        // lógica para a opção 1
+        setIsTyping(true)
+        simulateSendToAssistantWithDelay("Opção 1 selecionada: Atendimento sobre IPTU",1000)
+        break;
+      case '2':
+        // lógica para a opção 2
+        simulateSendToAssistantWithDelay("Opção 2 selecionada: Atendimento sobre ITBI",1000)
+        break;
+      case '3':
+        // lógica para a opçasão 3
+        simulateSendToAssistantWithDelay("Opção 3 selecionada: Atendimento sobre REFIS",1000)
+        break;
+      case '4':
+        // lógica para a opçãoo 4 
+        simulateSendToAssistantWithDelay("Opção 4 selecionada: Agendar atendimento no Vapt Vupt",1000)
+        break;
+
+      case '5':
+        setIsTyping(true)
+        simulateSendToAssistant("Certo, iremos te direcionar para aba de consultar seus dados e consultas de boleto tudo bem? Um segundo ...")
+        setTimeout(() => {
+          navigateToOption('Boleto')
+        }, 6000);
+
+        break;
+      case '6. Outros':
+        // lógica para a opção 6
+        simulateSendToAssistant("Opção 6 selecionada: Outros")
+        break;
+      default:
+        // lógica para lidar com outra s coisinhas
+        console.log('Opção não reconhecida');
+    }
+  }else{
+  }
+
+  }, []);
+
+
   const sendToAssistant = async (text) => {
     setIsTyping(true);
     try {
@@ -85,7 +192,6 @@ const Chat = () => {
           },
         },
       );
-
       const reply = response.data.choices[0].message.content;
       setMessages(previousMessages => GiftedChat.append(previousMessages, [{
         _id: previousMessages.length + 1,
@@ -99,29 +205,52 @@ const Chat = () => {
       }]));
     } catch (error) {
       console.error('Erro ao enviar mensagem para o assistente:', error);
-      // Trate o erro conforme necessário (exibindo uma mensagem ao usuário, etc.)
     } finally {
       setIsTyping(false);
     }
   };
 
-  return (
-    <ImageBackground
-      source={require('../../svg/background.jpg')}
-      style={styles.imageBackground}
-      resizeMode="cover"
-    >
-      <GiftedChat
-        messages={messages}
-        onSend={messages => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-        isTyping={isTyping}
-        renderFooter={renderFooter}
-      />
-    </ImageBackground>
-  );
+  const firstTime = true
+  if (firstTime) {
+    return (
+      <ImageBackground
+        source={require('../../svg/background.jpg')}
+        style={styles.imageBackground}
+        resizeMode="cover"
+      >
+        <GiftedChat
+          messages={preMessages}
+          onSend={preMessages => onSendPreMessages(preMessages)}
+          user={{
+            _id: 1,
+          }}
+          isTyping={isTyping}
+          renderFooter={renderFooter}
+        />
+      </ImageBackground>
+    );
+  } else {
+    return (
+      <ImageBackground
+        source={require('../../svg/background.jpg')}
+        style={styles.imageBackground}
+        resizeMode="cover"
+      >
+        <GiftedChat
+          messages={messages}
+          onSend={messages => onSend(messages)}
+          user={{
+            _id: 1,
+          }}
+          isTyping={isTyping}
+          renderFooter={renderFooter}
+          placeholder='Digite sua dúvida...'
+        />
+      </ImageBackground>
+    );
+
+  }
+
 };
 
 const styles = StyleSheet.create({

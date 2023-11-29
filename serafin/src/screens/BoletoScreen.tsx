@@ -49,13 +49,13 @@ const Boleto = () => {
         const primeiroBoleto = response.data.dams[0];
         navigateToOption('BoletoSucesso', { boletoData: primeiroBoleto});
       } else {
-        navigateToOption('BoletoSucesso', { boletoData: fakeData});
-        //Alert.alert('Erro','Nenhum boleto encontrado ou a API retornou um erro.');
+        //navigateToOption('BoletoSucesso', { boletoData: fakeData});
+        Alert.alert('Erro','Nenhum boleto encontrado ou a API retornou um erro.');
       }
     } catch (error) {
       console.error('Erro ao consultar a API:', error);
-        navigateToOption('BoletoSucesso', { boletoData: fakeData});
-      //Alert.alert('Erro','Houve um problema ao se conectar à API. Verifique sua conexão à Internet.');
+        //navigateToOption('BoletoSucesso', { boletoData: fakeData});
+      Alert.alert('Erro','Houve um problema ao se conectar à API. Verifique sua conexão à Internet.');
     }
   };
 
