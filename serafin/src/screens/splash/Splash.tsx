@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../../utils/C';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -13,7 +14,8 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Meu App</Text>
+      <Text style={styles.text}>Sefin</Text>
+      <Icon name="building-user" size={18} color={COLORS.blue} />
     </View>
   );
 };
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#fffffff',
   },
 });
 

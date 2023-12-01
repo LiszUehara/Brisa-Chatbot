@@ -21,6 +21,7 @@ import Share from 'react-native-share';
 import Snackbar from 'react-native-snackbar';
 import DocumentPicker from 'react-native-document-picker';
 import BottomSheet from '../boleto/bottomsheet/Modal';
+
 const BoletoSucesso = ({ route }) => {
   const { boletoData } = route.params;
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -49,7 +50,6 @@ const BoletoSucesso = ({ route }) => {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-    //  Alert.alert('Arquivo selecionado', `URI do arquivo: ${result.uri}`);
     } catch (error) {
       if (DocumentPicker.isCancel(error)) {
         Alert.alert('Ação cancelada');
