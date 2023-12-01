@@ -5,8 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image
 } from 'react-native';
 import axios from 'axios';
+import { COLORS } from '../utils/C';
+
+import Logo from "../svg/pessoas.svg";
 
 const LoginScreen = () => {
   const [inscricao, setInscricao] = useState('');
@@ -64,21 +68,19 @@ const LoginScreen = () => {
   };
 
   const validateInput = (input) => {
-    // Valide a inscrição conforme necessário
-    // ...
-
-    return true; // Altere essa lógica de validação de acordo com suas necessidades
+    return true;
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <Text style={styles.subTitle}>Acesse sua conta.</Text>
+      <Image style={styles.imagem}source={require('../svg/prefeitura-juazeiro.png')}></Image>
+      <Logo width={200} height={200} />
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Número de Inscrição</Text>
+        <Text style={{color:COLORS.blue,paddingBottom:12,marginTop:24, fontSize:24, fontWeight:'bold'}}>Evite filas! Nossos serviços na palma de sua mão!</Text>
+        <Text style={{color:COLORS.gray,paddingBottom:24,fontSize:16,marginBottom:24 }}>Faça login e acesse ainda mais serviços da Secretaria de Finanças sem precisar sair de casa</Text>
         <TextInput
           style={styles.input}
-          placeholder="Ex: 123456789"
+          placeholder="Número de inscrição '123456789'"
           placeholderTextColor="#A5A5A5"
           value={inscricao}
           onChangeText={(text) => setInscricao(text)}
@@ -106,21 +108,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    padding: 16,
     backgroundColor: '#FAF9F6',
   },
-  title: {
-    paddingTop: 100,
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  subTitle: {
-    fontSize: 16,
-    marginBottom: 24,
-  },
+
   inputContainer: {
-    paddingTop: 100,
     width: 362,
     marginBottom: 16,
     flexDirection: 'column',
@@ -143,7 +134,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 362,
     height: 60,
-    backgroundColor: '#0047FF',
+    backgroundColor: COLORS.blue,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -164,6 +155,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  imagem: {
+    width: 130,
+    height: 130,
+    resizeMode: 'contain', 
   },
 });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import OptionsCard from "../../components/OptionsCard";
+import OptionsCard from "../../../components/OptionsCard";
 import {Card} from "react-native-elements";
 
 const SerafinFirstOptions = ({navigation, route}) => {

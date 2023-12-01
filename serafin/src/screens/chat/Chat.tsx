@@ -19,7 +19,8 @@ const Chat = () => {
   6. Outros`
 
   const navigation = useNavigation();
-
+  const [isFirstTime, setIsFirstTime] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([]);
   const [preMessages, setpreMessages] = useState([
     {
@@ -44,8 +45,6 @@ const Chat = () => {
     },
   ]);
 
-  const [isTyping, setIsTyping] = useState(false);
-
 const simulateSendToAssistant = async (text) => {
     setIsTyping(true);
     try {
@@ -67,7 +66,6 @@ const simulateSendToAssistant = async (text) => {
       setIsTyping(false);
     }
   };
-
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -105,7 +103,8 @@ const simulateSendToAssistant = async (text) => {
   };
 
   const clearChat = () => {
-    setMessages([]);
+    setpreMessages([]);
+    setIsFirstTime(true);
   };
 
   const renderFooter = () => {
@@ -119,11 +118,6 @@ const simulateSendToAssistant = async (text) => {
     return null;
   };
 
-  const onSend = useCallback((newMessages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
-    sendToAssistant(newMessages[0].text);
-  }, []);
-
   const onSendPreMessages = useCallback((newMessages = []) => {
 
     const simulateSendToAssistantWithDelay = (message, delay) => {
@@ -134,43 +128,44 @@ const simulateSendToAssistant = async (text) => {
 
     setpreMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
 
-    if(firstTime){
+    if(isFirstTime){
     switch (newMessages[0].text) {
       case '1':
-        // lógica para a opção 1
         setIsTyping(true)
         simulateSendToAssistantWithDelay("Opção 1 selecionada: Atendimento sobre IPTU",1000)
+        // lógica para a opção 1
         break;
       case '2':
-        // lógica para a opção 2
+        setIsTyping(true)
         simulateSendToAssistantWithDelay("Opção 2 selecionada: Atendimento sobre ITBI",1000)
+        // lógica para a opção 2
         break;
       case '3':
-        // lógica para a opçasão 3
+        setIsTyping(true)
         simulateSendToAssistantWithDelay("Opção 3 selecionada: Atendimento sobre REFIS",1000)
+        // lógica para a opçasão 3
         break;
       case '4':
-        // lógica para a opçãoo 4 
+        setIsTyping(true)
         simulateSendToAssistantWithDelay("Opção 4 selecionada: Agendar atendimento no Vapt Vupt",1000)
+        // lógica para a opçãoo 4 
         break;
-
       case '5':
         setIsTyping(true)
         simulateSendToAssistant("Certo, iremos te direcionar para aba de consultar seus dados e consultas de boleto tudo bem? Um segundo ...")
         setTimeout(() => {
           navigateToOption('Boleto')
         }, 6000);
-
         break;
-      case '6. Outros':
-        // lógica para a opção 6
-        simulateSendToAssistant("Opção 6 selecionada: Outros")
+      case '6':
+        simulateSendToAssistant("Opção 6 selecionada: Outros");
+        setIsFirstTime(false);
         break;
       default:
-        // lógica para lidar com outra s coisinhas
         console.log('Opção não reconhecida');
     }
   }else{
+    sendToAssistant(newMessages[0].text);
   }
 
   }, []);
@@ -193,12 +188,12 @@ const simulateSendToAssistant = async (text) => {
         },
       );
       const reply = response.data.choices[0].message.content;
-      setMessages(previousMessages => GiftedChat.append(previousMessages, [{
+      setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
         _id: previousMessages.length + 1,
         text: reply,
         createdAt: new Date(),
         user: {
-          _id: 2,
+          _id: 1,
           name: 'Serafin',
           avatar: iconSerafin,
         },
@@ -210,8 +205,6 @@ const simulateSendToAssistant = async (text) => {
     }
   };
 
-  const firstTime = true
-  if (firstTime) {
     return (
       <ImageBackground
         source={require('../../svg/background.jpg')}
@@ -229,29 +222,7 @@ const simulateSendToAssistant = async (text) => {
         />
       </ImageBackground>
     );
-  } else {
-    return (
-      <ImageBackground
-        source={require('../../svg/background.jpg')}
-        style={styles.imageBackground}
-        resizeMode="cover"
-      >
-        <GiftedChat
-          messages={messages}
-          onSend={messages => onSend(messages)}
-          user={{
-            _id: 1,
-          }}
-          isTyping={isTyping}
-          renderFooter={renderFooter}
-          placeholder='Digite sua dúvida...'
-        />
-      </ImageBackground>
-    );
-
-  }
-
-};
+  } 
 
 const styles = StyleSheet.create({
   digitando: {

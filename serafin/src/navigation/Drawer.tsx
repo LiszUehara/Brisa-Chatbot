@@ -6,23 +6,24 @@ import Boleto from '../screens/BoletoScreen';
 import Login from '../screens/Login';
 import CustomDrawerContent from './CustomDrawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon2 from 'react-native-vector-icons/FontAwesome';
 import NewChat from '../screens/chat/Chat';
 import Chat from '../screens/chat/Chat';
 import HomeNew from '../screens/home/NewHome';
 import BoletoStack from './BoletoStack';
-import SerafinFirstOptions from "../screens/chat/FirstOptions";
+import SerafinFirstOptions from "../screens/chat/oldoptions/FirstOptions";
 import ChatStack from "./ChatStack";
-
+import { COLORS } from '../utils/C';
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
   tabBarStyle: {
-    backgroundColor: '#0000ff',
+    backgroundColor: COLORS.blue,
     height: 100,
   },
   tabBarItemStyle: {
-    backgroundColor: '#00ff00',
+    backgroundColor: COLORS.blue,
     margin: 5,
     borderRadius: 10,
   }
@@ -32,14 +33,14 @@ export default function MyDrawer() {
     <Drawer.Navigator
       screenOptions={{
         headerTintColor: "white",
-        drawerActiveTintColor: "#0000ff",
+        drawerActiveTintColor: COLORS.blue,
         headerStyle:{
           backgroundColor:"#1a3495"
         },
       }}
       drawerContent={(props) => <CustomDrawerContent {...props}
       drawerContentOptions={{
-      drawerActiveTintColor: '#0000ff',}}/>
+      drawerActiveTintColor: COLORS.blue,}}/>
     }>
       <Drawer.Screen
         name="Início"
@@ -47,9 +48,9 @@ export default function MyDrawer() {
         options={{
           title: "Início",
           drawerIcon: ({focused, size}) => (
-            <Icon name="home"
+            <Icon2 name="home"
             size={size}
-            color={focused ? '#0000ff' : 'gray'} />
+            color={focused ? COLORS.blue : 'gray'} />
           ),
 
       }}/>
@@ -61,18 +62,18 @@ export default function MyDrawer() {
           drawerIcon: ({focused, size}) => (
             <Icon name="login-variant"
             size={size}
-            color={focused ? '#0000ff' : 'gray'} />
+            color={focused ? COLORS.blue : 'gray'} />
           ),
       }}/>
       <Drawer.Screen
         name="Serafin"
-        component={ChatStack}
+        component={Chat}
         options={{
           title: "Serafin",
           drawerIcon: ({focused, size}) => (
-            <Icon name="message-text"
+            <Icon2 name="wechat"
             size={size}
-            color={focused ? '#0000ff' : 'gray'} />
+            color={focused ? COLORS.blue : 'gray'} />
           ),
       }}/>
       <Drawer.Screen
@@ -83,8 +84,21 @@ export default function MyDrawer() {
           drawerIcon: ({focused, size}) => (
             <Icon name="barcode"
             size={size}
-            color={focused ? '#0000ff' : 'gray'} />
+            color={focused ? COLORS.blue : 'gray'} />
           ),
+      }}/>
+
+      <Drawer.Screen
+        name="Sobre"
+        component={HomeNew}
+        options={{
+          title: "Sobre & FAQ",
+          drawerIcon: ({focused, size}) => (
+            <Icon2 name="exclamation-circle"
+            size={size}
+            color={focused ? COLORS.blue : 'gray'} />
+          ),
+
       }}/>
 
     </Drawer.Navigator>

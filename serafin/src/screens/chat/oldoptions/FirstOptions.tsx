@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import OptionsCard from '../../components/OptionsCard';
+import OptionsCard from '../../../components/OptionsCard';
 import {useNavigation} from "@react-navigation/native";
 import SecondOptions from "./SecondOptions";
-import BoletoStack from "../../navigation/BoletoStack";
+import BoletoStack from "../../../navigation/BoletoStack";
 
 const SerafinFirstOptions = () => {
   const navigation = useNavigation();

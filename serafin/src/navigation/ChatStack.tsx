@@ -2,10 +2,10 @@ import * as React from 'react';
 import {Header, createStackNavigator} from '@react-navigation/stack';
 import Boleto from '../screens/BoletoScreen';
 import BoletoSucesso from '../screens/BoletoSucessoScreen';
-import SecondOptions from "../screens/chat/SecondOptions";
-import FirstOptions from "../screens/chat/FirstOptions";
+import SecondOptions from "../screens/chat/oldoptions/SecondOptions";
+import FirstOptions from "../screens/chat/oldoptions/FirstOptions";
 import Chat from "../screens/chat/Chat";
-import ThirdOptions from "../screens/chat/ThirdOptions";
+import ThirdOptions from "../screens/chat/oldoptions/ThirdOptions";
 
 const Stack = createStackNavigator();
 

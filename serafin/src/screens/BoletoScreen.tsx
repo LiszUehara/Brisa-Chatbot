@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import BoletoSucesso from './BoletoSucessoScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import Logo from "../svg/boleto_guy.svg";
+import { COLORS } from '../utils/C';
 
 const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/dams';
 const authToken = '966988da19301ceec429f3a39649a696';
@@ -25,7 +25,7 @@ const fakeData = {
   url: "https://www.notacontrol.com.br/download/Gera%C3%A7%C3%A3o_boleto_bancario.pdf"
 }
 
-const Boleto = () => {
+const Bol= () => {
 
   const navigation = useNavigation();
   const [numeroDAMS, setNumeroDAMS] = useState('');
@@ -61,6 +61,8 @@ const Boleto = () => {
 
   return (
     <View style={styles.container}>
+
+      <Logo width={200} height={200} />
       <Text style={styles.title}>Consulte seu boleto aqui</Text>
       <TextInput
         style={styles.input}
@@ -84,7 +86,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    paddingBottom: 24,
+    paddingTop: 24,
     color: '#1a3495',
   },
   input: {
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   searchButton: {
-    backgroundColor: '#0047FF',
+    backgroundColor: COLORS.blue,
     borderRadius: 15,
     paddingVertical: 10,
     width: '80%',
@@ -117,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Boleto;
+export default Bol;

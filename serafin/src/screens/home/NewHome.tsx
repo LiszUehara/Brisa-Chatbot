@@ -4,11 +4,14 @@ import { useShowLogin } from '../../repo/atom';
 import { useNavigation } from '@react-navigation/native';
 import { useAtom } from 'jotai';
 import Item from './Item';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
+import Icon6 from 'react-native-vector-icons/FontAwesome6';
+import { COLORS } from '../../utils/C';
 
 const data = [
-  { id: '1', title: 'Segunda via', description: 'Detalhes da segunda via', color: ['#00a95a', '#00b105'] },
-  { id: '2', title: 'Falar com o Serafin', description: 'Converse com nosso assistente virtual', color: ['#ffcc2b', '#ffdd55'] },
-  { id: '3', title: 'Outros', description: 'Mais serviços disponíveis', color: ['#1a3495', '#2a45a5'] },
+  { id: '1', title: 'Segunda via', description: 'Detalhes da segunda via\ne outras informações', color: ['#00a95a', '#00984a'], icon:'barcode' },
+  { id: '2', title: 'Falar com o Serafin', description: 'Converse com nosso\nassistente virtual', color: ['#ffcc2b', '#efbc1b'], icon:'wechat' },
+  { id: '3', title: 'Outros', description: 'Mais serviços\ndisponíveis', color: ['#1a3495', '#001475'], icon:'support' },
 ];
   
 const Home= () => {
@@ -25,7 +28,7 @@ const Home= () => {
         screenName = 'Boleto';
         break;
       case '2':
-        screenName = 'ChatBot';
+        screenName = 'Serafin';
         break;
       case '3':
         screenName = 'Outros';
@@ -36,22 +39,32 @@ const Home= () => {
         title={item.title}
         description={item.description}
         color={item.color}
+        icon={item.icon}
         onPress={() => navigateToOption(screenName)}
       />
     );
   };
 
   return (
+
+    <View style={{flex:1}}>
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={item => item.id}
     //outros
     />
+    <Icon6 style={styles.footer} name="building-user" size={64} color={COLORS.lightGray} />
+    </View>
+        
   );
 };
 
 const styles = StyleSheet.create({
+  footer:{
+    alignSelf: 'center',
+    paddingBottom: 32, // Ajuste conforme necessário para a margem desejada
+  },
     item: {
       marginVertical: 8,
       marginHorizontal: 16,
