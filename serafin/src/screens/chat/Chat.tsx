@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import React, { useState, useCallback, useEffect } from 'react';
+import { GiftedChat, Send } from 'react-native-gifted-chat';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
@@ -7,8 +7,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
+import { useAtom } from 'jotai';
+import { isFirstTime } from '../../repo/atom'; // Certifique-se de fornecer o caminho correto para o seu arquivo atom.js
 
 const Chat = () => {
+
 
   const atendimentoFalas = `
   1. Atendimento sobre IPTU
@@ -19,7 +22,8 @@ const Chat = () => {
   6. Outros`
 
   const navigation = useNavigation();
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  //const [isFirstTime, setIsFirstTime] = useState(true);
+const [time, setTime] = useAtom(isFirstTime);
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([]);
   const [preMessages, setpreMessages] = useState([
@@ -118,7 +122,7 @@ const simulateSendToAssistant = async (text) => {
     return null;
   };
 
-  const onSendPreMessages = useCallback((newMessages = []) => {
+  const onSendPreMessages =(newMessages = []) => {
 
     const simulateSendToAssistantWithDelay = (message, delay) => {
       setTimeout(() => {
@@ -128,7 +132,7 @@ const simulateSendToAssistant = async (text) => {
 
     setpreMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
 
-    if(isFirstTime){
+     if(time==true){
     switch (newMessages[0].text) {
       case '1':
         setIsTyping(true)
@@ -158,17 +162,19 @@ const simulateSendToAssistant = async (text) => {
         }, 6000);
         break;
       case '6':
-        simulateSendToAssistant("Opção 6 selecionada: Outros");
-        setIsFirstTime(false);
+        setTime(false);
+        console.log(time);
+        simulateSendToAssistant("Opção 6 selecionada: Outros")
         break;
       default:
         console.log('Opção não reconhecida');
     }
   }else{
     sendToAssistant(newMessages[0].text);
+        console.log(time);
   }
 
-  }, []);
+  }
 
 
   const sendToAssistant = async (text) => {
@@ -193,8 +199,8 @@ const simulateSendToAssistant = async (text) => {
         text: reply,
         createdAt: new Date(),
         user: {
-          _id: 1,
-          name: 'Serafin',
+          _id: 3,
+          name: 'Serafinn',
           avatar: iconSerafin,
         },
       }]));
@@ -219,10 +225,23 @@ const simulateSendToAssistant = async (text) => {
           }}
           isTyping={isTyping}
           renderFooter={renderFooter}
+          placeholder="Digite sua mensagem..."
         />
       </ImageBackground>
     );
   } 
+
+  const renderSend = props => {
+    return (
+      <Send {...props} containerStyle={{ position: 'absolute', bottom: '10%', right: 0 }}>
+        <View style={{ marginRight: 10 }}>
+          <TouchableOpacity onPress={() => props.onSend({ text: props.text.trim() }, true)}>
+            <Text style={{ color: '#007AFF' }}>Enviar</Text>
+          </TouchableOpacity>
+        </View>
+      </Send>
+    );
+  };
 
 const styles = StyleSheet.create({
   digitando: {

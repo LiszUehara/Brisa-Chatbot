@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import Logo from "../svg/boleto_guy.svg";
-import { COLORS } from '../utils/C';
+import Logo from "../../svg/boleto_guy.svg";
+import { COLORS } from '../../utils/C';
 
 const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/dams';
 const authToken = '966988da19301ceec429f3a39649a696';

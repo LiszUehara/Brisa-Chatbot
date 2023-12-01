@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Header, createStackNavigator } from '@react-navigation/stack';
-import Boleto from '../screens/BoletoScreen';
-import BoletoSucesso from '../screens/BoletoSucessoScreen';
-import Bol from '../screens/BoletoScreen';
+import Boleto from '../screens/boleto/BoletoScreen';
+import BoletoSucesso from '../screens/boleto/BoletoSucessoScreen';
+import Bol from '../screens/boleto/BoletoScreen';
 
 const Stack = createStackNavigator();
 

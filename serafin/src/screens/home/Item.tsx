@@ -16,7 +16,6 @@ const Item = ({ title, description, color, onPress, icon}) => (
           <Text style={styles.description}>{description}</Text>
         </View>
         <View style={[styles.rightColumn, styles.rightColumn]}>
-
          <Icon name={icon} size={32} color={"#FFFFFF"} />
         </View>
       </View>

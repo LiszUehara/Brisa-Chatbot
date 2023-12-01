@@ -2,7 +2,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from '../screens/old/HomeScreen';
 import ChatApp from '../screens/old/ChatScreen';
-import Boleto from '../screens/BoletoScreen';
+import Boleto from '../screens/boleto/BoletoScreen';
 import Login from '../screens/Login';
 import CustomDrawerContent from './CustomDrawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
