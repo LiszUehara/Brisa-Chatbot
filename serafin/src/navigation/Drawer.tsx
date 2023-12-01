@@ -1,106 +1,104 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Home from '../screens/old/HomeScreen';
-import ChatApp from '../screens/old/ChatScreen';
-import Boleto from '../screens/boleto/BoletoScreen';
 import Login from '../screens/Login';
 import CustomDrawerContent from './CustomDrawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
-import NewChat from '../screens/chat/Chat';
 import Chat from '../screens/chat/Chat';
 import HomeNew from '../screens/home/NewHome';
 import BoletoStack from './BoletoStack';
-import SerafinFirstOptions from "../screens/chat/oldoptions/FirstOptions";
-import ChatStack from "./ChatStack";
 import { COLORS } from '../utils/C';
-
+import AboutScreen from '../screens/about/About';
+import { checkLoginStatus, getData } from '../repo/data/Storage';
+import { useAtom } from 'jotai';
+import { isLoggedAtom,inscricaoAtom,userNameAtom,userLogradouroAtom,userCPFCNPJAtom,saveDataAtom}from '../repo/data/Repo';
 const Drawer = createDrawerNavigator();
 
-const screenOptions = {
-  tabBarStyle: {
-    backgroundColor: COLORS.blue,
-    height: 100,
-  },
-  tabBarItemStyle: {
-    backgroundColor: COLORS.blue,
-    margin: 5,
-    borderRadius: 10,
-  }
-};
 export default function MyDrawer() {
-  return (
-    <Drawer.Navigator
-      screenOptions={{
-        headerTintColor: "white",
-        drawerActiveTintColor: COLORS.blue,
-        headerStyle:{
-          backgroundColor:"#1a3495"
-        },
-      }}
-      drawerContent={(props) => <CustomDrawerContent {...props}
-      drawerContentOptions={{
-      drawerActiveTintColor: COLORS.blue,}}/>
-    }>
-      <Drawer.Screen
-        name="Início"
-        component={HomeNew}
-        options={{
-          title: "Início",
-          drawerIcon: ({focused, size}) => (
-            <Icon2 name="home"
-            size={size}
-            color={focused ? COLORS.blue : 'gray'} />
-          ),
 
-      }}/>
-      <Drawer.Screen
-        name="Login"
-        component={Login}
-        options={{
-          title: "Login",
-          drawerIcon: ({focused, size}) => (
-            <Icon name="login-variant"
-            size={size}
-            color={focused ? COLORS.blue : 'gray'} />
-          ),
-      }}/>
-      <Drawer.Screen
-        name="Serafin"
-        component={Chat}
-        options={{
-          title: "Serafin",
-          drawerIcon: ({focused, size}) => (
-            <Icon2 name="wechat"
-            size={size}
-            color={focused ? COLORS.blue : 'gray'} />
-          ),
-      }}/>
-      <Drawer.Screen
-        name="Boleto"
-        component={BoletoStack}
-        options={{
-          title: "Boleto",
-          drawerIcon: ({focused, size}) => (
-            <Icon name="barcode"
-            size={size}
-            color={focused ? COLORS.blue : 'gray'} />
-          ),
-      }}/>
 
-      <Drawer.Screen
-        name="Sobre"
-        component={HomeNew}
-        options={{
-          title: "Sobre & FAQ",
-          drawerIcon: ({focused, size}) => (
-            <Icon2 name="exclamation-circle"
-            size={size}
-            color={focused ? COLORS.blue : 'gray'} />
-          ),
+  const [isLogged, setIsLogged] = useAtom(isLoggedAtom);
+  const [inscricao, setInscricao] = useAtom(inscricaoAtom);
+  const [userName, setUserName] = useAtom(userNameAtom);
+  const [userLogradouro, setUserLogradouro] = useAtom(userLogradouroAtom);
+  const [userCPFCNPJ, setUserCPFCNPJ] = useAtom(userCPFCNPJAtom);
 
-      }}/>
+const routes = {
+  Home: {
+    name: 'Início',
+    component: HomeNew,
+    options: {
+      title: "Início",
+      drawerIcon: ({ focused, size }) => (
+        <Icon2 name="home" size={size} color={focused ? COLORS.blue : 'gray'} />
+      ),
+    },
+  },
+  Login: {
+    name: 'Login',
+    component: Login,
+    options: {
+      title: 'Login',
+      drawerIcon: ({ focused, size }) => (
+        <Icon name="login-variant" size={size} color={focused ? COLORS.blue : 'gray'} />
+      ),
+    },
+  },
+  Serafin: {
+    name: 'Serafin',
+    component: Chat,
+    options: {
+      title: 'Serafin',
+      drawerIcon: ({ focused, size }) => (
+        <Icon2 name="wechat" size={size} color={focused ? COLORS.blue : 'gray'} />
+      ),
+    },
+  },
+  Boleto: {
+    name: 'Boleto',
+    component: BoletoStack,
+    options: {
+      title: 'Boleto',
+      drawerIcon: ({ focused, size }) => (
+        <Icon name="barcode" size={size} color={focused ? COLORS.blue : 'gray'} />
+      ),
+    },
+  },
+  About: {
+    name: 'About',
+    component: AboutScreen,
+    options: {
+      title: 'Sobre & FAQ',
+      drawerIcon: ({ focused, size }) => (
+        <Icon2 name="exclamation-circle" size={size} color={focused ? COLORS.blue : 'gray'} />
+      ),
+    },
+  },
+};
 
-    </Drawer.Navigator>
-  );
+
+if (isLogged) {
+  delete routes.Login;
+  routes.Home.name = userName
+}else{
+  delete routes.Login;
 }
+
+    return (
+      <Drawer.Navigator
+        screenOptions={{
+          headerTintColor: 'white',
+          drawerActiveTintColor: COLORS.blue,
+          headerStyle: {
+            backgroundColor: '#1a3495',
+          },
+        }}
+        drawerContent={(props) => (
+          <CustomDrawerContent {...props} drawerContentOptions={{ drawerActiveTintColor: COLORS.blue }} />
+        )}>
+        {Object.entries(routes).map(([name, options]) => (
+          <Drawer.Screen key={name} name={name} component={options.component} options={options.options} />
+        ))}
+      </Drawer.Navigator>
+    );
+  };

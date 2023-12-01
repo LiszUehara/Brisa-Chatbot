@@ -14,6 +14,7 @@ import Logo from "../svg/pessoas.svg";
 import { useAtom} from 'jotai';
 import { API_KEY_SEFIN } from '@env';
 import { user } from '../repo/atom'; 
+import { saveData } from '../repo/data/Storage';
 const LoginScreen = () => {
   const [inscricao, setInscricao] = useState('');
   const [inputError, setInputError] = useState('');
@@ -56,6 +57,11 @@ const LoginScreen = () => {
 
       if (response.data.situacao === 'SUCESSO' && response.data.contribuintes.length > 0) {
         const user = response.data.contribuintes[0];
+        saveData("isLogged","true");
+        saveData("userInscricao",inscricao);
+        saveData("userName",user.pes_nome);
+        saveData("userLogradouro",user.pes_logradouro);
+        saveData("userCPFCNPJ",user.pes_cpfcnpj);
         return user;
       } else {
         return null;

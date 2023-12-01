@@ -7,8 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
-import { useAtom } from 'jotai';
 import { isFirstTime } from '../../repo/atom'; 
+import { useAtom } from 'jotai';
 import { API_KEY_GPT } from '@env';
 
 const Chat = () => {

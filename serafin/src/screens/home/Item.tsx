@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity,View } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity,View, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Item = ({ title, description, color, onPress, icon}) => (
-  <TouchableOpacity style={styles.item} onPress={onPress}>
+  <TouchableOpacity style={[styles.item]} onPress={onPress}>
     <LinearGradient
       colors={color}
       style={styles.gradient}
@@ -24,13 +24,17 @@ const Item = ({ title, description, color, onPress, icon}) => (
 );
 
 const styles = StyleSheet.create({
+  card: {
+    elevation: 10,
+
+  },
   row: {
     flexDirection: 'row',
     justifyContent: 'center'
   },
   column: {
     flex: 1,
-    justifyContent: 'center', // Ajuste conforme necessário
+    justifyContent: 'center',
   },
   leftColumn: {
     justifyContent: 'flex-start',
@@ -51,7 +55,16 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 10,
+    elevation: 10,
     overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+      },
+    }),
   },
   gradient: {
     padding: 20,

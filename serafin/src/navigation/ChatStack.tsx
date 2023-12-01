@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {Header, createStackNavigator} from '@react-navigation/stack';
-import Boleto from '../screens/boleto/BoletoScreen';
-import BoletoSucesso from '../screens/boleto/BoletoSucessoScreen';
 import SecondOptions from "../screens/chat/oldoptions/SecondOptions";
 import FirstOptions from "../screens/chat/oldoptions/FirstOptions";
 import Chat from "../screens/chat/Chat";
