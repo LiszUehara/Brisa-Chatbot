@@ -97,7 +97,6 @@ const LoginScreen = () => {
           <Text>Nome: {contribuinte.pes_nome}</Text>
           <Text>CPF/CNPJ: {contribuinte.pes_cpfcnpj}</Text>
           <Text>Endereço: {contribuinte.pes_logradouro}, {contribuinte.pes_numero}</Text>
-          {/* Adicione outros campos conforme necessário */}
         </View>
       )}
     </View>

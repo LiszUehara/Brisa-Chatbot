@@ -1,18 +1,10 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
-import { Header, createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './src/screens/Login';
-import Home from './src/screens/old/HomeScreen';
-import Route from './src/screens/Route';
-import MyDrawer from './src/navigation/Drawer';
-import { COLORS } from './src/utils/C';
+import MyDrawer from '../../src/navigation/Drawer';
+import { COLORS } from '../utils/C';
 import { MenuProvider } from 'react-native-popup-menu';
-import SplashScreen from './src/screens/splash/Splash';
-import Main from './src/screens/Main';
 
-const stack = createStackNavigator();
 // function HomeScreen({ navigation }) {
 //   return (
 //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -37,15 +29,11 @@ const stack = createStackNavigator();
 //   );
 // }
 
-export default function App(){
+export default function Main(){
   return(
-<NavigationContainer>
-  <stack.Navigator screenOptions={{headerShown:false}}>
-    <stack.Screen name="Splash" component={SplashScreen}/>
-    <stack.Screen name="Main" component={Main}/>
-
-  </stack.Navigator>
+    <MenuProvider>
 <StatusBar barStyle="light-content" backgroundColor={COLORS.blue}  />
-</NavigationContainer>
+  <MyDrawer/>
+</MenuProvider>
   );
 }
