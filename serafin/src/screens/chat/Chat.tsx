@@ -8,11 +8,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useAtom } from 'jotai';
-import { isFirstTime } from '../../repo/atom'; // Certifique-se de fornecer o caminho correto para o seu arquivo atom.js
+import { isFirstTime } from '../../repo/atom'; 
+import { API_KEY_GPT } from '@env';
 
 const Chat = () => {
-
-
   const atendimentoFalas = `
   1. Atendimento sobre IPTU
   2. Atendimento sobre ITBI
@@ -23,7 +22,7 @@ const Chat = () => {
 
   const navigation = useNavigation();
   //const [isFirstTime, setIsFirstTime] = useState(true);
-const [time, setTime] = useAtom(isFirstTime);
+  const [time, setTime] = useAtom(isFirstTime);
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([]);
   const [preMessages, setpreMessages] = useState([
@@ -49,12 +48,12 @@ const [time, setTime] = useAtom(isFirstTime);
     },
   ]);
 
-const simulateSendToAssistant = async (text) => {
+  const simulateSendToAssistant = async (text) => {
     setIsTyping(true);
     try {
       const reply = text
       setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
-        _id: previousMessages.length+1,
+        _id: previousMessages.length + 1,
         text: reply,
         createdAt: new Date(),
         user: {
@@ -122,7 +121,7 @@ const simulateSendToAssistant = async (text) => {
     return null;
   };
 
-  const onSendPreMessages =(newMessages = []) => {
+  const onSendPreMessages = (newMessages = []) => {
 
     const simulateSendToAssistantWithDelay = (message, delay) => {
       setTimeout(() => {
@@ -131,51 +130,52 @@ const simulateSendToAssistant = async (text) => {
     };
 
     setpreMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+    if (time) {
+      if (newMessages[0].text == '1') {
+        setIsTyping(true)
+        simulateSendToAssistant("Opção 1 selecionada: Atendimento sobre IPTU")
+        setIsTyping(false)
+        return
+        //simulateSendToAssistantWithDelay("Opção 1 selecionada: Atendimento sobre IPTU", 1000)
 
-     if(time==true){
-    switch (newMessages[0].text) {
-      case '1':
+      }
+      if (newMessages[0].text == '2') {
         setIsTyping(true)
-        simulateSendToAssistantWithDelay("Opção 1 selecionada: Atendimento sobre IPTU",1000)
-        // lógica para a opção 1
-        break;
-      case '2':
-        setIsTyping(true)
-        simulateSendToAssistantWithDelay("Opção 2 selecionada: Atendimento sobre ITBI",1000)
+        simulateSendToAssistant("Opção 2 selecionada: Atendimento sobre ITBI")
+        setIsTyping(false)
+        return
         // lógica para a opção 2
-        break;
-      case '3':
+      }
+      if (newMessages[0].text == '3') {
         setIsTyping(true)
-        simulateSendToAssistantWithDelay("Opção 3 selecionada: Atendimento sobre REFIS",1000)
+        simulateSendToAssistant("Opção 3 selecionada: Atendimento sobre REFIS")
+        return
         // lógica para a opçasão 3
-        break;
-      case '4':
+      }
+      if (newMessages[0].text == '4') {
         setIsTyping(true)
-        simulateSendToAssistantWithDelay("Opção 4 selecionada: Agendar atendimento no Vapt Vupt",1000)
+        simulateSendToAssistant("Opção 4 selecionada: Agendar atendimento no Vapt Vupt")
+        return
         // lógica para a opçãoo 4 
-        break;
-      case '5':
+      }
+      if (newMessages[0].text == '5') {
         setIsTyping(true)
         simulateSendToAssistant("Certo, iremos te direcionar para aba de consultar seus dados e consultas de boleto tudo bem? Um segundo ...")
         setTimeout(() => {
           navigateToOption('Boleto')
         }, 6000);
-        break;
-      case '6':
-        setTime(false);
-        console.log(time);
-        simulateSendToAssistant("Opção 6 selecionada: Outros")
-        break;
-      default:
-        console.log('Opção não reconhecida');
+      }
     }
-  }else{
-    sendToAssistant(newMessages[0].text);
-        console.log(time);
-  }
+    if (newMessages[0].text == '6') {
+      setTime(false);
+      console.log(time);
+      simulateSendToAssistant("Opção 6 selecionada: Outros")
+    }
+    if (time == false) {
+      sendToAssistant(newMessages[0].text);
+    }
 
   }
-
 
   const sendToAssistant = async (text) => {
     setIsTyping(true);
@@ -188,19 +188,22 @@ const simulateSendToAssistant = async (text) => {
         },
         {
           headers: {
-            'Authorization': 'Bearer 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',
+            'Authorization': 'Bearer '+ API_KEY_GPT,
             'Content-Type': 'application/json',
           },
         },
       );
       const reply = response.data.choices[0].message.content;
+      console.log(API_KEY_GPT)
+          
       setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
+
         _id: previousMessages.length + 1,
         text: reply,
         createdAt: new Date(),
         user: {
-          _id: 3,
-          name: 'Serafinn',
+          _id: 2,
+          name: 'Serafin',
           avatar: iconSerafin,
         },
       }]));
@@ -211,37 +214,38 @@ const simulateSendToAssistant = async (text) => {
     }
   };
 
-    return (
-      <ImageBackground
-        source={require('../../svg/background.jpg')}
-        style={styles.imageBackground}
-        resizeMode="cover"
-      >
-        <GiftedChat
-          messages={preMessages}
-          onSend={preMessages => onSendPreMessages(preMessages)}
-          user={{
-            _id: 1,
-          }}
-          isTyping={isTyping}
-          renderFooter={renderFooter}
-          placeholder="Digite sua mensagem..."
-        />
-      </ImageBackground>
-    );
-  } 
+  return (
+    <ImageBackground
+      source={require('../../svg/background.jpg')}
+      style={styles.imageBackground}
+      resizeMode="cover"
+    >
+      <GiftedChat
+        messages={preMessages}
+        onSend={preMessages => onSendPreMessages(preMessages)}
+        user={{
+          _id: 1,
+        }}
+        isTyping={isTyping}
+        renderFooter={renderFooter}
+        placeholder="Digite sua mensagem..."
+      />
+    </ImageBackground>
+  );
 
-  const renderSend = props => {
-    return (
-      <Send {...props} containerStyle={{ position: 'absolute', bottom: '10%', right: 0 }}>
-        <View style={{ marginRight: 10 }}>
-          <TouchableOpacity onPress={() => props.onSend({ text: props.text.trim() }, true)}>
-            <Text style={{ color: '#007AFF' }}>Enviar</Text>
-          </TouchableOpacity>
-        </View>
-      </Send>
-    );
-  };
+}
+
+const renderSend = props => {
+  return (
+    <Send {...props} containerStyle={{ position: 'absolute', bottom: '10%', right: 0 }}>
+      <View style={{ marginRight: 10 }}>
+        <TouchableOpacity onPress={() => props.onSend({ text: props.text.trim() }, true)}>
+          <Text style={{ color: '#007AFF' }}>Enviar</Text>
+        </TouchableOpacity>
+      </View>
+    </Send>
+  );
+};
 
 const styles = StyleSheet.create({
   digitando: {

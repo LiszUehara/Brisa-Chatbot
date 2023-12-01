@@ -2,7 +2,6 @@ import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   TextInput,
-  Button,
   FlatList,
   Text,
   TouchableOpacity,
@@ -11,7 +10,6 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const MAX_MESSAGES = 50;
 
@@ -238,7 +236,7 @@ const ChatApp = () => {
         {
           headers: {
             Authorization:
-              'Bearer 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',
+              'Bearer $',
           },
         },
       );

@@ -8,21 +8,21 @@ import {
   Image
 } from 'react-native';
 import axios from 'axios';
-import { COLORS } from '../utils/C';
+import { COLORS, URL } from '../utils/C';
 
 import Logo from "../svg/pessoas.svg";
-
+import { useAtom} from 'jotai';
+import { API_KEY_SEFIN } from '@env';
+import { user } from '../repo/atom'; 
 const LoginScreen = () => {
   const [inscricao, setInscricao] = useState('');
   const [inputError, setInputError] = useState('');
-  const [contribuinte, setContribuinte] = useState(null);
-
-  const apiToken = '966988da19301ceec429f3a39649a696';
+  const [contribuinte, setContribuinte] = useAtom(user);
 
   const handleLogin = async () => {
     if (validateInput(inscricao)) {
       try {
-        const user = await authenticateUser(inscricao, apiToken);
+        const user = await authenticateUser(inscricao, API_KEY_SEFIN);
 
         if (user) {
           setContribuinte(user);
@@ -39,10 +39,8 @@ const LoginScreen = () => {
 
   const authenticateUser = async (inscricao, authToken) => {
     try {
-      const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes';
-
       const response = await axios.post(
-        apiUrl,
+        URL.urlContribuintes,
         {
           inscricoes: inscricao,
           nome: '',

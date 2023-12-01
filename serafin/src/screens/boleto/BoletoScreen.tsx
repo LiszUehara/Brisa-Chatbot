@@ -10,10 +10,8 @@ import {
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Logo from "../../svg/boleto_guy.svg";
-import { COLORS } from '../../utils/C';
-
-const apiUrl = 'http://hmgiss.speedgov.com.br/amontada/consulta/dams';
-const authToken = '966988da19301ceec429f3a39649a696';
+import { COLORS, URL } from '../../utils/C';
+import { API_KEY_SEFIN } from '@env';
 
 const fakeData = {
   cod_boleto : "12308379817231827",
@@ -36,12 +34,12 @@ const Bol= () => {
 
   const fetchBoletoData = async () => {
     try {
-      const response = await axios.post(apiUrl, {
+      const response = await axios.post(URL.urlDams, {
         numero_dams: numeroDAMS,
         nome: '',
       }, {
         headers: {
-          'auth-token': authToken,
+          'auth-token': API_KEY_SEFIN,
         },
       });
 

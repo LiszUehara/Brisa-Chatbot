@@ -11,3 +11,7 @@ export const COLORS = {
     black: "#000000",
     lightGray : "#CCCCCC"
 }
+export const URL = {
+    urlDams : "http://hmgiss.speedgov.com.br/amontada/consulta/dams",
+    urlContribuintes: "http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes"
+}
