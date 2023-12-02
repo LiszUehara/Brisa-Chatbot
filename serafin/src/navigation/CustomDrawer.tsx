@@ -15,7 +15,7 @@ export default function CustomDrawerContent(props) {
             <Icon name="account-circle" color={COLORS.blue} size={50} />
           </View>
           <View style={{ marginLeft: 15, flexDirection: 'row', alignItems: 'center' }}>
-            <Text >Olá, seja bem vindo(a)!</Text>
+            <Text style={{color:COLORS.black}} >Olá, seja bem vindo(a)!</Text>
           </View>
         </View>
 

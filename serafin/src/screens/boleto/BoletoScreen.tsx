@@ -68,7 +68,9 @@ export const Bol = () => {
       <TextInput
         style={styles.input}
         placeholder="Insira o número de DAMS"
+        placeholderTextColor={COLORS.black}
         value={numeroDAMS}
+
         onChangeText={(text) => setNumeroDAMS(text)}
       />
       <TouchableOpacity style={styles.searchButton} onPress={fetchBoletoData}>
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
+    color: COLORS.black,
     padding: 8,
     marginBottom: 10,
   },

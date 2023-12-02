@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { COLORS } from '../../utils/C';
 
 const AboutScreen = () => {
   return (
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   description: {
+    color:COLORS.darkGray,
     textAlign: 'center',
   },
 });

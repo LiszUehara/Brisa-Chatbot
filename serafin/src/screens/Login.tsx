@@ -84,6 +84,7 @@ const LoginScreen = () => {
           placeholder="Número de inscrição '123456789'"
           placeholderTextColor="#A5A5A5"
           value={inscricao}
+        
           onChangeText={(text) => setInscricao(text)}
         />
         {inputError ? <Text style={styles.errorText}>{inputError}</Text> : null}
@@ -108,12 +109,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FAF9F6',
   },
 
   inputContainer: {
     width: 362,
     marginBottom: 16,
+    tintColor:COLORS.blue,
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
@@ -124,6 +127,7 @@ const styles = StyleSheet.create({
   input: {
     width: 362,
     height: 60,
+    color: COLORS.black,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 20,

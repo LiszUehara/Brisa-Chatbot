@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { isFirstTime } from '../../repo/atom';
 import { useAtom } from 'jotai';
 import { API } from '../../../env';
+import { COLORS } from '../../utils/C';
 
 const Chat = () => {
   const atendimentoFalas = `
@@ -234,18 +235,6 @@ const Chat = () => {
   );
 
 }
-
-const renderSend = props => {
-  return (
-    <Send {...props} containerStyle={{ position: 'absolute', bottom: '10%', right: 0 }}>
-      <View style={{ marginRight: 10 }}>
-        <TouchableOpacity onPress={() => props.onSend({ text: props.text.trim() }, true)}>
-          <Text style={{ color: '#007AFF' }}>Enviar</Text>
-        </TouchableOpacity>
-      </View>
-    </Send>
-  );
-};
 
 const styles = StyleSheet.create({
   digitando: {
