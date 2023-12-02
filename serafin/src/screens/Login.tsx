@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image
+  Image,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import axios from 'axios';
 import { COLORS, URL } from '../utils/C';
@@ -15,7 +16,6 @@ import Logo from "../svg/pessoas.svg";
 import { useAtom } from 'jotai';
 import { user } from '../repo/atom';
 import { API } from '../../env';
-
 
 const LoginScreen = () => {
   const [inscricao, setInscricao] = useState('');
@@ -73,35 +73,40 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.imagem} source={require('../svg/prefeitura-juazeiro.png')}></Image>
-      <Logo width={200} height={200} />
-      <View style={styles.inputContainer}>
-        <Text style={{ color: COLORS.blue, paddingBottom: 12, marginTop: 24, fontSize: 24, fontWeight: 'bold' }}>Evite filas! Nossos serviços na palma de sua mão!</Text>
-        <Text style={{ color: COLORS.gray, paddingBottom: 24, fontSize: 16, marginBottom: 24 }}>Faça login e acesse ainda mais serviços da Secretaria de Finanças sem precisar sair de casa</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Número de inscrição '123456789'"
-          placeholderTextColor="#A5A5A5"
-          value={inscricao}
-        
-          onChangeText={(text) => setInscricao(text)}
-        />
-        {inputError ? <Text style={styles.errorText}>{inputError}</Text> : null}
-      </View>
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-
-      {contribuinte && (
-        <View style={styles.contribuinteContainer}>
-          <Text style={styles.contribuinteLabel}>Informações do Contribuinte:</Text>
-          <Text>Nome: {contribuinte.pes_nome}</Text>
-          <Text>CPF/CNPJ: {contribuinte.pes_cpfcnpj}</Text>
-          <Text>Endereço: {contribuinte.pes_logradouro}, {contribuinte.pes_numero}</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAF9F6' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+    >
+      <View style={styles.container}>
+        <Image style={styles.imagem} source={require('../svg/prefeitura-juazeiro.png')}></Image>
+        <Logo width={200} height={200} />
+        <View style={styles.inputContainer}>
+          <Text style={{ color: COLORS.blue, paddingBottom: 12, marginTop: 24, fontSize: 24, fontWeight: 'bold' }}>Evite filas! Nossos serviços na palma de sua mão!</Text>
+          <Text style={{ color: COLORS.gray, paddingBottom: 24, fontSize: 16, marginBottom: 24 }}>Faça login e acesse ainda mais serviços da Secretaria de Finanças sem precisar sair de casa</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Número de inscrição '123456789'"
+            placeholderTextColor="#A5A5A5"
+            value={inscricao}
+            onChangeText={(text) => setInscricao(text)}
+          />
+          {inputError ? <Text style={styles.errorText}>{inputError}</Text> : null}
         </View>
-      )}
-    </View>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+
+        {contribuinte && (
+          <View style={styles.contribuinteContainer}>
+            <Text style={styles.contribuinteLabel}>Informações do Contribuinte:</Text>
+            <Text>Nome: {contribuinte.pes_nome}</Text>
+            <Text>CPF/CNPJ: {contribuinte.pes_cpfcnpj}</Text>
+            <Text>Endereço: {contribuinte.pes_logradouro}, {contribuinte.pes_numero}</Text>
+          </View>
+        )}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -112,17 +117,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FAF9F6',
   },
-
   inputContainer: {
     width: 362,
     marginBottom: 16,
-    tintColor:COLORS.blue,
+    tintColor: COLORS.blue,
     flexDirection: 'column',
     alignItems: 'flex-start',
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
   },
   input: {
     width: 362,

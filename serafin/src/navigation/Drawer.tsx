@@ -69,6 +69,7 @@ export default function MyDrawer() {
 
   return (
     <Drawer.Navigator
+    
       screenOptions={{
         headerTintColor: 'white',
         drawerActiveTintColor: COLORS.blue,
@@ -76,6 +77,7 @@ export default function MyDrawer() {
           backgroundColor: '#1a3495',
         },
       }}
+
       drawerContent={(props) => (
         <CustomDrawerContent {...props} drawerContentOptions={{ drawerActiveTintColor: COLORS.blue }} />
       )}>

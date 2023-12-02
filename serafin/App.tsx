@@ -18,7 +18,24 @@ export default function App() {
   return (
 
     <NavigationContainer>
-      <stack.Navigator screenOptions={{ headerShown: false }}>
+      <stack.Navigator screenOptions={{
+        headerShown: false,
+        cardStyleInterpolator: ({ current, next, layouts }) => {
+          return {
+            cardStyle: {
+              transform: [
+                {
+                  translateX: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [layouts.screen.width, 0],
+                  }),
+                },
+              ],
+            },
+          };
+        },
+      }}
+      >
         <stack.Screen name="Splash" component={SplashScreen} />
         <stack.Screen name="Main" component={Main} />
       </stack.Navigator>
