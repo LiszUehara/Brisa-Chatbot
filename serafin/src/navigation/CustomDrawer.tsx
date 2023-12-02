@@ -4,18 +4,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS } from '../utils/C';
 
-import { useAtom } from 'jotai';
-import { userNameAtom } from '../repo/data/Repo';
-
 
 export default function CustomDrawerContent(props) {
-
-  const [userName, setUserName] = useAtom(userNameAtom);
-    let name = "Seja bem vindo(a)!"
-    if(userName!=''){
-      name = userName
-    }
-
 
     return (
       <View style={styles.container}>
@@ -25,7 +15,7 @@ export default function CustomDrawerContent(props) {
               <Icon name="account-circle" color={COLORS.blue} size={50} />
             </View>
             <View style={{ marginLeft: 15, flexDirection: 'row', alignItems: 'center' }}>
-              <Text >Olá,{name}</Text>
+              <Text >Olá, seja bem vindo(a)!</Text>
             </View>
           </View>
   

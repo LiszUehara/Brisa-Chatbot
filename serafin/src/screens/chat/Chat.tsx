@@ -9,7 +9,7 @@ import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
 import { isFirstTime } from '../../repo/atom'; 
 import { useAtom } from 'jotai';
-import { API_KEY_GPT } from '@env';
+import API_KEY_GPT from '../../../env.js'
 
 const Chat = () => {
   const atendimentoFalas = `

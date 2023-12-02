@@ -9,19 +9,10 @@ import HomeNew from '../screens/home/NewHome';
 import BoletoStack from './BoletoStack';
 import { COLORS } from '../utils/C';
 import AboutScreen from '../screens/about/About';
-import { checkLoginStatus, getData } from '../repo/data/Storage';
-import { useAtom } from 'jotai';
-import { isLoggedAtom,inscricaoAtom,userNameAtom,userLogradouroAtom,userCPFCNPJAtom,saveDataAtom}from '../repo/data/Repo';
+
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
-
-
-  const [isLogged, setIsLogged] = useAtom(isLoggedAtom);
-  const [inscricao, setInscricao] = useAtom(inscricaoAtom);
-  const [userName, setUserName] = useAtom(userNameAtom);
-  const [userLogradouro, setUserLogradouro] = useAtom(userLogradouroAtom);
-  const [userCPFCNPJ, setUserCPFCNPJ] = useAtom(userCPFCNPJAtom);
 
 const routes = {
   Home: {
@@ -75,14 +66,6 @@ const routes = {
     },
   },
 };
-
-
-if (isLogged) {
-  delete routes.Login;
-  routes.Home.name = userName
-}else{
-  delete routes.Login;
-}
 
     return (
       <Drawer.Navigator

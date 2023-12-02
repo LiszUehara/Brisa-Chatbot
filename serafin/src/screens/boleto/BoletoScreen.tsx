@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import {
-  View,
+
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   Alert,
+  View,
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Logo from "../../svg/boleto_guy.svg";
 import { COLORS, URL } from '../../utils/C';
-import { API_KEY_SEFIN } from '@env';
+import API_KEY_SEFIN from '../../../env.js'
+
 
 const fakeData = {
   cod_boleto : "12308379817231827",
@@ -23,7 +26,7 @@ const fakeData = {
   url: "https://www.notacontrol.com.br/download/Gera%C3%A7%C3%A3o_boleto_bancario.pdf"
 }
 
-const Bol= () => {
+export const Bol= () => {
 
   const navigation = useNavigation();
   const [numeroDAMS, setNumeroDAMS] = useState('');
@@ -58,8 +61,8 @@ const Bol= () => {
   };
 
   return (
-    <View style={styles.container}>
 
+    <View style={styles.container}>
       <Logo width={200} height={200} />
       <Text style={styles.title}>Consulte seu boleto aqui</Text>
       <TextInput

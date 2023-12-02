@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useShowLogin } from '../../repo/atom';
+
 import { useNavigation } from '@react-navigation/native';
-import { useAtom } from 'jotai';
+
 import Item from './Item';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
+
 import Icon6 from 'react-native-vector-icons/FontAwesome6';
 import { COLORS } from '../../utils/C';
 
@@ -16,7 +16,7 @@ const data = [
   
 const Home= () => {
   const navigation = useNavigation();
-  const [showLogin] = useAtom(useShowLogin);
+
   const navigateToOption = (routeName) => {
     navigation.navigate(routeName);
   };
