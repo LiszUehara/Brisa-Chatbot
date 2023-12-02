@@ -1,0 +1,10 @@
+user.email=wanderleymbf@gmail.com
+user.name=derleymad
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=git@github.com:LiszUehara/Brisa-Chatbot.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
