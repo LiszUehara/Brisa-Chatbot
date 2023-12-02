@@ -19,7 +19,7 @@ const SerafinFirstOptions = ({ navigation, route }) => {
       : route.params.option == "4" ? "Agendamento Vapt Vupt"
         : route.params.option.includes("1-") ? "Dúvida sobre IPTU"
           : route.params.option.includes("2-") ? "Dúvida sobre ITBI"
-          : "Outros";
+            : "Outros";
 
   return (
     <View style={{ flex: 1 }}>
@@ -99,7 +99,7 @@ const SerafinFirstOptions = ({ navigation, route }) => {
           />
           <OptionsCard
             onPress={() => {
-              
+
               navigation.navigate('FirstOptions');
             }}
             text={"Voltar ao Menu Inicial"}
@@ -109,7 +109,7 @@ const SerafinFirstOptions = ({ navigation, route }) => {
         <View>
           <OptionsCard
             onPress={() => {
-              
+
             }}
             text={
               "Poxa, tente perguntar de outra forma, pode dar certo. Caso precise, ligue para o fone\n" +
@@ -121,7 +121,7 @@ const SerafinFirstOptions = ({ navigation, route }) => {
           </TouchableOpacity>
           <OptionsCard
             onPress={() => {
-              
+
             }}
             text={" ou nos contate através do WhatsApp."}
           />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import BoletoSucesso from '../screens/boleto/BoletoSucessoScreen';
 import Bol from '../screens/boleto/BoletoScreen';
 

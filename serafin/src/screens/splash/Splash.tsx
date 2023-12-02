@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.push('Main'); 
-    }, 1000); 
+      navigation.push('Main');
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, [navigation]);
@@ -16,8 +16,8 @@ const SplashScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.text}>Secretaria de</Text>
       <Text style={styles.text}>Finanças</Text>
-      <Text style={[styles.text,{fontSize:14}]}>Juazeiro do Norte</Text>
-      <Icon style={{paddingTop:8}}name="building-user" size={84} color={COLORS.blue} />
+      <Text style={[styles.text, { fontSize: 14 }]}>Juazeiro do Norte</Text>
+      <Icon style={{ paddingTop: 8 }} name="building-user" size={84} color={COLORS.blue} />
     </View>
   );
 };
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#ffffff", 
+    backgroundColor: "#ffffff",
   },
   text: {
     fontSize: 18,

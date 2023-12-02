@@ -43,8 +43,8 @@ const BottomSheet = ({ isVisible, onClose }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.content}>
-            <Text style={{paddingBottom:8}}>Significado e detalhes das tags:</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', alignContent: 'center',width:'60%' }}>
+            <Text style={{ paddingBottom: 8 }}>Significado e detalhes das tags:</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', alignContent: 'center', width: '60%' }}>
               <Card containerStyle={{ backgroundColor: COLORS.lightRed, borderRadius: 30, padding: 10, width: 'relative' }}>
                 <View style={{ flexDirection: 'row' }}>
                   <Icon name={'exclamation-triangle'} size={18} color={"#FFF"} />
@@ -54,14 +54,14 @@ const BottomSheet = ({ isVisible, onClose }) => {
               <Text>O boleto não foi pago, pode ser baixado pago.</Text>
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', alignContent: 'center',width:'60%'}}>
-            <Card containerStyle={{ backgroundColor: COLORS.lighGreen, borderRadius: 30, padding: 10, width: 'relative' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Icon name={'check'} size={18} color={"#FFF"} />
-                <Text style={{ color: '#FFF', paddingStart: 8 }}>PAGO</Text>
-              </View>
-            </Card>
-              <Text style={{alignSelf:'center'}}>Pode ficar tranquilo, o boleto já foi pago e está tudo em dias!</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', alignContent: 'center', width: '60%' }}>
+              <Card containerStyle={{ backgroundColor: COLORS.lighGreen, borderRadius: 30, padding: 10, width: 'relative' }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon name={'check'} size={18} color={"#FFF"} />
+                  <Text style={{ color: '#FFF', paddingStart: 8 }}>PAGO</Text>
+                </View>
+              </Card>
+              <Text style={{ alignSelf: 'center' }}>Pode ficar tranquilo, o boleto já foi pago e está tudo em dias!</Text>
             </View>
 
 

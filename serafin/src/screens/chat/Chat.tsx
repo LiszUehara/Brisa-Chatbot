@@ -7,9 +7,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
-import { isFirstTime } from '../../repo/atom'; 
+import { isFirstTime } from '../../repo/atom';
 import { useAtom } from 'jotai';
-import API_KEY_GPT from '../../../env.js'
+import { API } from '../../../env';
 
 const Chat = () => {
   const atendimentoFalas = `
@@ -107,7 +107,7 @@ const Chat = () => {
 
   const clearChat = () => {
     setpreMessages([]);
-    setIsFirstTime(true);
+    time(true);
   };
 
   const renderFooter = () => {
@@ -188,14 +188,14 @@ const Chat = () => {
         },
         {
           headers: {
-            'Authorization': 'Bearer '+ API_KEY_GPT,
+            'Authorization': 'Bearer ' + API.KEY_GPT,
             'Content-Type': 'application/json',
           },
         },
       );
       const reply = response.data.choices[0].message.content;
-      console.log(API_KEY_GPT)
-          
+      console.log(API.KEY_GPT)
+
       setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
 
         _id: previousMessages.length + 1,

@@ -1,7 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import OptionsCard from '../../../components/OptionsCard';
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import SecondOptions from "./SecondOptions";
 import BoletoStack from "../../../navigation/BoletoStack";
 
@@ -20,14 +20,14 @@ Por favor, escolha uma das opções abaixo:`
   const option6 = "6. Outros"
 
   return (
-    <View style={{flex: 1}}>
-      <OptionsCard onPress={()=> {}} text={question}/>
-      <OptionsCard onPress={() => navigation.navigate("SecondOptions",{option: 1})}  text={option1}/>
-      <OptionsCard onPress={() => navigation.navigate("SecondOptions",{option: 2})}  text={option2}/>
-      <OptionsCard onPress={() => navigation.navigate("ThirdOptions",{option: "3"})}  text={option3}/>
-      <OptionsCard onPress={() => navigation.navigate("ThirdOptions",{option: "4"})}  text={option4}/>
-      <OptionsCard onPress={() => navigation.navigate('Boleto', { screen: 'Boleto' })}  text={option5}/>
-      <OptionsCard onPress={() => navigation.navigate("ChatScreen")}  text={option6}/>
+    <View style={{ flex: 1 }}>
+      <OptionsCard onPress={() => { }} text={question} />
+      <OptionsCard onPress={() => navigation.navigate("SecondOptions", { option: 1 })} text={option1} />
+      <OptionsCard onPress={() => navigation.navigate("SecondOptions", { option: 2 })} text={option2} />
+      <OptionsCard onPress={() => navigation.navigate("ThirdOptions", { option: "3" })} text={option3} />
+      <OptionsCard onPress={() => navigation.navigate("ThirdOptions", { option: "4" })} text={option4} />
+      <OptionsCard onPress={() => navigation.navigate('Boleto', { screen: 'Boleto' })} text={option5} />
+      <OptionsCard onPress={() => navigation.navigate("ChatScreen")} text={option6} />
     </View>
   );
 };

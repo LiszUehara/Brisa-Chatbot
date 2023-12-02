@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   TextInput,
@@ -15,7 +15,7 @@ const MAX_MESSAGES = 50;
 
 const AssistantIcon = require('../svg/iconSerafin.png');
 
-const ChatMessage = ({role, content}) => (
+const ChatMessage = ({ role, content }) => (
   <View style={role === 'user' ? styles.userMessage : styles.assistantMessage}>
     {role === 'assistant' && (
       <Image source={AssistantIcon} style={styles.Icon} />
@@ -214,7 +214,7 @@ const ChatApp = () => {
       return;
     }
 
-    const userMessage = {role: 'user', content: inputText};
+    const userMessage = { role: 'user', content: inputText };
     const newMessages = [...messages, userMessage];
     setInputText('');
     setIsSending(true);
@@ -230,7 +230,7 @@ const ChatApp = () => {
           model: 'gpt-3.5-turbo',
           messages: [
             ...newMessages,
-            {role: 'assistant', content: 'Serafin está pensando...'},
+            { role: 'assistant', content: 'Serafin está pensando...' },
           ],
         },
         {
@@ -254,7 +254,7 @@ const ChatApp = () => {
       setIsSending(false);
       // Rolando para a última mensagem adicionada
       if (flatListRef.current) {
-        flatListRef.current.scrollToEnd({animated: true});
+        flatListRef.current.scrollToEnd({ animated: true });
       }
     }
   };
@@ -277,7 +277,7 @@ const ChatApp = () => {
         ref={flatListRef}
         data={messages}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <ChatMessage role={item.role} content={item.content} />
         )}
         contentContainerStyle={styles.chatContainer}

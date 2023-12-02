@@ -3,5 +3,5 @@ config.js
 /node_modules
 /ios/Pods
 /android/app/build
-.env
-/serafin/.env
+env.tsx
+/serafin/env.tsx

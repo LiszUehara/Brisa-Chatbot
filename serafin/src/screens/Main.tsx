@@ -5,12 +5,12 @@ import { COLORS } from '../utils/C';
 import { MenuProvider } from 'react-native-popup-menu';
 
 
-export default function Main(){
+export default function Main() {
 
-  return(
+  return (
     <MenuProvider>
-<StatusBar barStyle="light-content" backgroundColor={COLORS.blue}  />
-  <MyDrawer/>
-</MenuProvider>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.blue} />
+      <MyDrawer />
+    </MenuProvider>
   );
 }

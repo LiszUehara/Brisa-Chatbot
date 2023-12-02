@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Header, createStackNavigator} from '@react-navigation/stack';
+import { Header, createStackNavigator } from '@react-navigation/stack';
 import SecondOptions from "../screens/chat/oldoptions/SecondOptions";
 import FirstOptions from "../screens/chat/oldoptions/FirstOptions";
 import Chat from "../screens/chat/Chat";
@@ -9,11 +9,11 @@ const Stack = createStackNavigator();
 
 function ChatStack() {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="FirstOptions" component={FirstOptions}/>
-      <Stack.Screen name="SecondOptions" component={SecondOptions}/>
-      <Stack.Screen name="ThirdOptions" component={ThirdOptions}/>
-      <Stack.Screen name="ChatScreen" component={Chat}/>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="FirstOptions" component={FirstOptions} />
+      <Stack.Screen name="SecondOptions" component={SecondOptions} />
+      <Stack.Screen name="ThirdOptions" component={ThirdOptions} />
+      <Stack.Screen name="ChatScreen" component={Chat} />
     </Stack.Navigator>
   );
 }

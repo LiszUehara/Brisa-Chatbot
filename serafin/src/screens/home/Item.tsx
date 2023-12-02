@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity,View, Platform } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Item = ({ title, description, color, onPress, icon}) => (
+const Item = ({ title, description, color, onPress, icon }) => (
   <TouchableOpacity style={[styles.item]} onPress={onPress}>
     <LinearGradient
       colors={color}
@@ -16,7 +16,7 @@ const Item = ({ title, description, color, onPress, icon}) => (
           <Text style={styles.description}>{description}</Text>
         </View>
         <View style={[styles.rightColumn, styles.rightColumn]}>
-         <Icon name={icon} size={32} color={"#FFFFFF"} />
+          <Icon name={icon} size={32} color={"#FFFFFF"} />
         </View>
       </View>
     </LinearGradient>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   rightColumn: {
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   box: {
     width: 50,

@@ -12,9 +12,9 @@ import axios from 'axios';
 import { COLORS, URL } from '../utils/C';
 
 import Logo from "../svg/pessoas.svg";
-import { useAtom} from 'jotai';
-import API_KEY_SEFIN from '../../env.js'
-import { user } from '../repo/atom'; 
+import { useAtom } from 'jotai';
+import { user } from '../repo/atom';
+import { API } from '../../env';
 
 
 const LoginScreen = () => {
@@ -25,7 +25,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     if (validateInput(inscricao)) {
       try {
-        const user = await authenticateUser(inscricao, API_KEY_SEFIN);
+        const user = await authenticateUser(inscricao, API.KEY_SEFIN);
 
         if (user) {
           setContribuinte(user);
@@ -74,11 +74,11 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.imagem}source={require('../svg/prefeitura-juazeiro.png')}></Image>
+      <Image style={styles.imagem} source={require('../svg/prefeitura-juazeiro.png')}></Image>
       <Logo width={200} height={200} />
       <View style={styles.inputContainer}>
-        <Text style={{color:COLORS.blue,paddingBottom:12,marginTop:24, fontSize:24, fontWeight:'bold'}}>Evite filas! Nossos serviços na palma de sua mão!</Text>
-        <Text style={{color:COLORS.gray,paddingBottom:24,fontSize:16,marginBottom:24 }}>Faça login e acesse ainda mais serviços da Secretaria de Finanças sem precisar sair de casa</Text>
+        <Text style={{ color: COLORS.blue, paddingBottom: 12, marginTop: 24, fontSize: 24, fontWeight: 'bold' }}>Evite filas! Nossos serviços na palma de sua mão!</Text>
+        <Text style={{ color: COLORS.gray, paddingBottom: 24, fontSize: 16, marginBottom: 24 }}>Faça login e acesse ainda mais serviços da Secretaria de Finanças sem precisar sair de casa</Text>
         <TextInput
           style={styles.input}
           placeholder="Número de inscrição '123456789'"
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   imagem: {
     width: 130,
     height: 130,
-    resizeMode: 'contain', 
+    resizeMode: 'contain',
   },
 });
 

@@ -5,21 +5,18 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Animated,
   Platform,
 } from 'react-native';
-import { Card, Colors } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import Clipboard from '@react-native-clipboard/clipboard';
 import React = require('react');
 import RNFetchBlob from 'rn-fetch-blob';
 import PushNotification from 'react-native-push-notification';
 import { COLORS } from '../../utils/C';
 import Share from 'react-native-share';
 import Snackbar from 'react-native-snackbar';
-import DocumentPicker from 'react-native-document-picker';
 import BottomSheet from '../boleto/bottomsheet/Modal';
 
 const BoletoSucesso = ({ route }) => {
@@ -42,28 +39,8 @@ const BoletoSucesso = ({ route }) => {
     }).start();
   }, []);
 
-  const colorNow = boletoData.ies_status === 'ABERTO' ? COLORS.lightRed: COLORS.lighGreen;
-  const iconNow =  boletoData.ies_status === 'ABERTO' ? "exclamation-triangle" : "check"
-
-  const OpenDownloadedFile = async () => {
-    try {
-      const result = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-      });
-    } catch (error) {
-      if (DocumentPicker.isCancel(error)) {
-        Alert.alert('Ação cancelada');
-      } else {
-        Alert.alert('Erro ao escolher arquivo', error.message);
-      }
-    }
-  };
-  
-  const copiarTexto = () => {
-    Clipboard.setString(boletoData.cod_boleto);
-    openBottomSheet();
-    exibirSnackbar();
-  };
+  const colorNow = boletoData.ies_status === 'ABERTO' ? COLORS.lightRed : COLORS.lighGreen;
+  const iconNow = boletoData.ies_status === 'ABERTO' ? "exclamation-triangle" : "check"
 
   const sharePDF = async () => {
     try {
@@ -71,26 +48,25 @@ const BoletoSucesso = ({ route }) => {
       const response = await config({
         fileCache: true,
       }).fetch('GET', boletoData.url);
-    const filePath = response.path();
-    const downloadDir = Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
-    const downloadPath = `${downloadDir}/boleto_sefin.pdf`;
-    await fs.mv(filePath, downloadPath);
- try {
-      const options = {
-        title: 'Compartilhar PDF',
-        url: `file://${downloadPath}`,
-        type: 'application/pdf',
-      };
-      await Share.open(options);
-    } catch (error) {
-      Snackbar.show({
-        text: 'Compartilhamento cancelado',
-        backgroundColor: COLORS.lightRed,
-      duration: Snackbar.LENGTH_SHORT,
-      })
-    }
-    //console.log('Caminho do arquivo:', downloadPath);
-    //enviarNotificacao();
+      const filePath = response.path();
+      const downloadDir = Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
+      const downloadPath = `${downloadDir}/boleto_sefin.pdf`;
+      await fs.mv(filePath, downloadPath);
+      try {
+        const options = {
+          title: 'Compartilhar PDF',
+          url: `file://${downloadPath}`,
+          type: 'application/pdf',
+        };
+        await Share.open(options);
+      } catch (error) {
+        Snackbar.show({
+          text: 'Compartilhamento cancelado',
+          backgroundColor: COLORS.lightRed,
+          duration: Snackbar.LENGTH_SHORT,
+        })
+      }
+
     } catch (error) {
       console.error('Erro ao baixar o arquivo:', error);
 
@@ -98,54 +74,53 @@ const BoletoSucesso = ({ route }) => {
   };
 
   const baixarBoleto = async () => {
+    console.log(" a url do boleto é:", boletoData.url)
     try {
       const { config, fs } = RNFetchBlob;
-      const response = await config({
-        fileCache: true,
-      }).fetch('GET', boletoData.url);
-
+      const response = await config({ fileCache: true }).fetch('GET', boletoData.url);
 
       const filePath = response.path();
-      const downloadDir = Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
+      if (!await RNFetchBlob.fs.exists(filePath)) {
+        console.error('O arquivo não foi baixado corretamente.');
+        return;
+      }
+
+      const downloadDir = RNFetchBlob.fs.dirs.DownloadDir;
       const downloadPath = `${downloadDir}/boleto_sefin.pdf`;
-      await fs.mv(filePath, downloadPath);
+
+      if (await RNFetchBlob.fs.exists(downloadPath)) {
+        if (Platform.OS === 'ios') {
+          RNFetchBlob.ios.openDocument(downloadPath);
+        } else {
+          const android = RNFetchBlob.android;
+          android.actionViewIntent(downloadPath, 'application/pdf');
+        }
+        return;
+      }
+
+      await RNFetchBlob.fs.cp(filePath, downloadPath);
+      await RNFetchBlob.fs.unlink(filePath);
+
       Snackbar.show({
         text: 'Boleto baixado com sucesso em Downloads ...',
         backgroundColor: COLORS.lighGreen,
         duration: Snackbar.LENGTH_SHORT,
       });
 
-      if(Platform.OS ==='ios'){
+      if (Platform.OS === 'ios') {
         RNFetchBlob.ios.openDocument(downloadPath);
-      }else{
-      const android = RNFetchBlob.android;
-      android.actionViewIntent(downloadPath, 'application/pdf');
+      } else {
+        const android = RNFetchBlob.android;
+        android.actionViewIntent(downloadPath, 'application/pdf');
       }
     } catch (error) {
+      console.error('Erro ao baixar o boleto:', error);
       Snackbar.show({
-        text: 'Não foi possivel baixar o boleto',
+        text: 'Não foi possível baixar o boleto',
         backgroundColor: COLORS.lightRed,
         duration: Snackbar.LENGTH_SHORT,
       });
     }
-  };
-  
-
-  const exibirSnackbar = () => {
-    Snackbar.show({
-      text: 'Texto copiado para a área de transferência ✅',
-      backgroundColor: COLORS.lighGreen,
-      duration: Snackbar.LENGTH_SHORT,
-    });
-  };
-
-  const enviarNotificacao = () => {
-    PushNotification.localNotification({
-      title: 'Boleto Baixado',
-      message: 'Seu boleto foi baixado com sucesso!',
-      channelId: 'Downloads',
-      userInfo: {},
-    });
   };
 
   return (
@@ -154,11 +129,11 @@ const BoletoSucesso = ({ route }) => {
         <Text style={styles.textHeader}>Meu(s) boleto(s)</Text>
         <Card containerStyle={styles.card}>
 
-          <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between'}}>
-          <Text style={styles.title}>Detalhes do Boleto</Text>
-        <TouchableOpacity onPress={openBottomSheet}>
-                  <Icon name="info-circle" size={24}/>
-      </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between' }}>
+            <Text style={styles.title}>Detalhes do Boleto</Text>
+            <TouchableOpacity onPress={openBottomSheet}>
+              <Icon name="info-circle" size={24} />
+            </TouchableOpacity>
           </View>
           <View style={{ borderBottomColor: '#3e3e3e3e', borderBottomWidth: 1, marginBottom: 10 }} />
 
@@ -169,7 +144,7 @@ const BoletoSucesso = ({ route }) => {
             </Text>
             <Text> {boletoData.cod_boleto} </Text>
 
-    
+
 
           </View>
           <View style={styles.cardBody}>
@@ -213,7 +188,7 @@ const BoletoSucesso = ({ route }) => {
               </View>
             </View>
           </View>
-          <Card containerStyle={{backgroundColor:colorNow,borderRadius:30,padding:10,width:'30%' }}>
+          <Card containerStyle={{ backgroundColor: colorNow, borderRadius: 30, padding: 10, width: '30%' }}>
             <View style={{ flexDirection: 'row' }}>
               <Icon name={iconNow} size={18} color={"#FFF"} />
               <Text style={{ color: '#FFF' }}> {boletoData.ies_status}</Text>
@@ -222,26 +197,26 @@ const BoletoSucesso = ({ route }) => {
 
         </Card>
 
-        <View style={{alignSelf:'stretch',width:'100%'}}>
-          <Card containerStyle={{backgroundColor:"#FFF",borderRadius:10}}>
+        <View style={{ alignSelf: 'stretch', width: '100%' }}>
+          <Card containerStyle={{ backgroundColor: "#FFF", borderRadius: 10 }}>
 
-              <TouchableOpacity onPress={baixarBoleto}>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon name='download' size={24} color={COLORS.blue} />
-              <Text style={{color:COLORS.blue, fontWeight:'500', fontSize:18, marginStart:10}}>Baixar boleto</Text>
-            </View>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={baixarBoleto}>
+              <View style={{ flexDirection: 'row' }}>
+                <Icon name='download' size={24} color={COLORS.blue} />
+                <Text style={{ color: COLORS.blue, fontWeight: '500', fontSize: 18, marginStart: 10 }}>Baixar boleto</Text>
+              </View>
+            </TouchableOpacity>
           </Card>
         </View>
-        <View style={{alignSelf:'stretch',width:'100%'}}>
-          <Card containerStyle={{backgroundColor:"#FFF",borderRadius:10}}>
+        <View style={{ alignSelf: 'stretch', width: '100%' }}>
+          <Card containerStyle={{ backgroundColor: "#FFF", borderRadius: 10 }}>
 
-              <TouchableOpacity onPress={sharePDF}>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon name='share' size={24} color={COLORS.blue} />
-              <Text style={{color:COLORS.blue, fontWeight:'500', fontSize:18, marginStart:10}}>Compartilhar boleto</Text>
-            </View>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={sharePDF}>
+              <View style={{ flexDirection: 'row' }}>
+                <Icon name='share' size={24} color={COLORS.blue} />
+                <Text style={{ color: COLORS.blue, fontWeight: '500', fontSize: 18, marginStart: 10 }}>Compartilhar boleto</Text>
+              </View>
+            </TouchableOpacity>
           </Card>
         </View>
 
@@ -289,7 +264,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom:5 
+    paddingBottom: 5
   },
   cardColumn: {
     flex: 1, //  essa linha para dividir em duas colunas

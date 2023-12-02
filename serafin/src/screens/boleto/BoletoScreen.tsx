@@ -13,26 +13,26 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Logo from "../../svg/boleto_guy.svg";
 import { COLORS, URL } from '../../utils/C';
-import API_KEY_SEFIN from '../../../env.js'
+import { API } from '../../../env';
 
 
 const fakeData = {
-  cod_boleto : "12308379817231827",
+  cod_boleto: "12308379817231827",
   val_boleto: "1389,99",
-  val_taxa : "20,99",
+  val_taxa: "20,99",
   dat_vencimento: "21/08/2023",
   nome: "Wanderley de Macêdo",
   ies_status: "ABERTO",
   url: "https://www.notacontrol.com.br/download/Gera%C3%A7%C3%A3o_boleto_bancario.pdf"
 }
 
-export const Bol= () => {
+export const Bol = () => {
 
   const navigation = useNavigation();
   const [numeroDAMS, setNumeroDAMS] = useState('');
 
-  const navigateToOption = (routeName,params) => {
-    navigation.navigate(routeName,params);
+  const navigateToOption = (routeName, params) => {
+    navigation.navigate(routeName, params);
   };
 
   const fetchBoletoData = async () => {
@@ -42,21 +42,21 @@ export const Bol= () => {
         nome: '',
       }, {
         headers: {
-          'auth-token': API_KEY_SEFIN,
+          'auth-token': API.KEY_SEFIN,
         },
       });
 
       if (response.data.situacao === 'SUCESSO' && response.data.dams.length > 0) {
         const primeiroBoleto = response.data.dams[0];
-        navigateToOption('BoletoSucesso', { boletoData: primeiroBoleto});
+        navigateToOption('BoletoSucesso', { boletoData: primeiroBoleto });
       } else {
         //navigateToOption('BoletoSucesso', { boletoData: fakeData});
-        Alert.alert('Erro','Nenhum boleto encontrado ou a API retornou um erro.');
+        Alert.alert('Erro', 'Nenhum boleto encontrado ou a API retornou um erro.');
       }
     } catch (error) {
       console.error('Erro ao consultar a API:', error);
-        //navigateToOption('BoletoSucesso', { boletoData: fakeData});
-      Alert.alert('Erro','Houve um problema ao se conectar à API. Verifique sua conexão à Internet.');
+      //navigateToOption('BoletoSucesso', { boletoData: fakeData});
+      Alert.alert('Erro', 'Houve um problema ao se conectar à API. Verifique sua conexão à Internet.');
     }
   };
 
