@@ -15,23 +15,28 @@ export default function CustomDrawerContent(props) {
     //navigation.push('Profile')
   };
 
-  return (
-    <View style={styles.container}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.userSection}>
-          <TouchableOpacity onPress={navigateToProfile} style={{ flexDirection: 'row', alignItems: 'center' ,paddingBottom:16}}>
-            <Icon name="account-circle" color={COLORS.blue} size={50} />
-            <Text style={{ marginLeft: 15, color: COLORS.black ,fontSize:16}}>Olá, seja bem-vindo(a)!</Text>
-           
-          </TouchableOpacity>
-          <Text style={{ alignSelf:'flex-start', color: COLORS.blue ,fontSize:14, fontWeight:'bold',paddingBottom:4}}>{user.pes_nome}</Text>
-        <Text style={{ alignSelf:'flex-start', color: COLORS.darkGray ,fontSize:14,fontWeight:'bold'}}>{user.pes_cpfcnpj}</Text>
-        </View>
-        
-        <DrawerItemList {...props} />
-      </DrawerContentScrollView>
-    </View>
-  );
+    return (
+      <View style={styles.container}>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.userSection}>
+            <TouchableOpacity onPress={navigateToProfile} style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Icon name="account-circle" color={COLORS.blue} size={50} />
+              <Text style={{ marginLeft: 15, color: COLORS.black ,fontSize:16}}>Olá, seja bem-vindo(a)!</Text>
+             
+            </TouchableOpacity>
+            {user && (
+            <>
+              <Text style={{ alignSelf: 'flex-start', color: COLORS.blue, fontSize: 14, fontWeight: 'bold', paddingBottom: 4, paddingTop:16}}>{user.pes_nome}</Text>
+              <Text style={{ alignSelf: 'flex-start', color: COLORS.darkGray, fontSize: 14, fontWeight: 'bold' }}>{user.pes_cpfcnpj}</Text>
+            </>
+          )}
+          </View>
+          
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
+      </View>
+    );
+  
 }
 
 const styles = StyleSheet.create({
