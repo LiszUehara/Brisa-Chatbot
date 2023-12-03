@@ -1,185 +1,277 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { GiftedChat, Send } from 'react-native-gifted-chat';
-import { Text, View, StyleSheet, ImageBackground } from 'react-native';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import React, { useState, useEffect } from 'react';
+import { Day, GiftedChat } from 'react-native-gifted-chat';
+import { Text, View, StyleSheet, ImageBackground, Linking } from 'react-native';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import iconSerafin from '../../svg/iconSerafin.svg';
 import { useNavigation } from '@react-navigation/native';
 import { isFirstTime } from '../../repo/atom';
+import { opt } from '../../repo/atom';
 import { useAtom } from 'jotai';
 import { API } from '../../../env';
-import { COLORS } from '../../utils/C';
+import { COLORS, whatsappUrl } from '../../utils/C';
 
 const Chat = () => {
-  const atendimentoFalas = `
-  1. Atendimento sobre IPTU
-  2. Atendimento sobre ITBI
-  3. Atendimento sobre REFIS
-  4. Agendar atendimento no Vapt Vupt
-  5. Consultar Boleto
-  6. Outros`
-
   const navigation = useNavigation();
-  //const [isFirstTime, setIsFirstTime] = useState(true);
   const [time, setTime] = useAtom(isFirstTime);
+  const [context, setContext] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [preMessages, setpreMessages] = useState([
-    {
-      _id: 1,
-      text: atendimentoFalas,
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: 'Serafin',
-        avatar: iconSerafin,
-      },
-    },
-    {
-      _id: 2,
-      text: "Olá, eu sou SERAFIN, a inteligência artificial da Secretaria de Finanças, e estou aqui para te ajudar com dúvidas sobre diversos assuntos fiscais, como IPTU, ITBI, ISS, renegociação e prazo.\n\n Qual a sua dúvida?\n\n Porfavor insira alguma das opções abaixo:",
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: 'Serafin',
-        avatar: iconSerafin,
-      },
-    },
-  ]);
+  const initialText = "Escolha uma opção:\n1. Atendimento sobre IPTU\n2. Atendimento sobre ITBI\n3. Atendimento sobre REFIS\n4. Agendar atendimento no Vapt Vupt\n5. Consultar Boleto\n6. Outros"
+  
 
-  const simulateSendToAssistant = async (text) => {
-    setIsTyping(true);
-    try {
-      const reply = text
-      setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
-        _id: previousMessages.length + 1,
-        text: reply,
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: initialText,
         createdAt: new Date(),
         user: {
           _id: 2,
           name: 'Serafin',
           avatar: iconSerafin,
         },
-      }]));
-
-    } catch (error) {
-      console.error('Erro ao enviar mensagem para o assistente:', error);
-    } finally {
-      setIsTyping(false);
-    }
-  };
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Menu>
-          <MenuTrigger>
-            <TouchableOpacity style={{ marginRight: 10 }}>
-              <Text style={{ fontSize: 24, color: 'white' }}>⋮</Text>
-            </TouchableOpacity>
-          </MenuTrigger>
-          <MenuOptions>
-            <MenuOption onSelect={() => navigateToOption('Login')} >
-              <View style={styles.menuOptionStyle}>
-                <Icon name="login" size={16} color="#000" />
-                <Text style={styles.menuOptionText}>Fazer Login</Text>
-              </View>
-            </MenuOption>
-            <MenuOption onSelect={() => clearChat()} >
-              <View style={styles.menuOptionStyle}>
-                <Icon name="delete" size={16} color="#000" />
-                <Text style={styles.menuOptionText}>Limpar Chat</Text>
-              </View>
-            </MenuOption>
-          </MenuOptions>
-        </Menu>
-      ),
-      headerRightContainerStyle: {
-        marginRight: 10,
       },
-    });
-  }, [navigation]);
+      {
+        _id: 2,
+        text: 'Bem-vindo! Como posso ajudar você?',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Serafin',
+          avatar: iconSerafin,
+        },
+      },
+    ]);
+  }, []);
 
-  const navigateToOption = (routeName) => {
-    navigation.navigate(routeName);
-  };
+  const onSend = async (newMessages = []) => {
+    const userMessage = newMessages[0].text;
 
-  const clearChat = () => {
-    setpreMessages([]);
-    time(true);
-  };
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, [
+        {
+          _id: previousMessages.length + 1,
+          text: userMessage,
+          createdAt: new Date(),
+          user: {
+            _id: 1,
+          },
+        },
+      ])
+    );
 
-  const renderFooter = () => {
-    if (isTyping) {
-      return (
-        <View style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles.digitando}>Serafin está digitando...</Text>
-        </View>
-      );
-    }
-    return null;
-  };
+    //MAIN LOGIC AND CONDITION HERE!!
 
-  const onSendPreMessages = (newMessages = []) => {
-
-    const simulateSendToAssistantWithDelay = (message, delay) => {
-      setTimeout(() => {
-        simulateSendToAssistant(message);
-      }, delay);
-    };
-
-    setpreMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
     if (time) {
-      if (newMessages[0].text == '1') {
-        setIsTyping(true)
-        simulateSendToAssistant("Opção 1 selecionada: Atendimento sobre IPTU")
-        setIsTyping(false)
-        return
-        //simulateSendToAssistantWithDelay("Opção 1 selecionada: Atendimento sobre IPTU", 1000)
-
-      }
-      if (newMessages[0].text == '2') {
-        setIsTyping(true)
-        simulateSendToAssistant("Opção 2 selecionada: Atendimento sobre ITBI")
-        setIsTyping(false)
-        return
-        // lógica para a opção 2
-      }
-      if (newMessages[0].text == '3') {
-        setIsTyping(true)
-        simulateSendToAssistant("Opção 3 selecionada: Atendimento sobre REFIS")
-        return
-        // lógica para a opçasão 3
-      }
-      if (newMessages[0].text == '4') {
-        setIsTyping(true)
-        simulateSendToAssistant("Opção 4 selecionada: Agendar atendimento no Vapt Vupt")
-        return
-        // lógica para a opçãoo 4 
-      }
-      if (newMessages[0].text == '5') {
-        setIsTyping(true)
-        simulateSendToAssistant("Certo, iremos te direcionar para aba de consultar seus dados e consultas de boleto tudo bem? Um segundo ...")
-        setTimeout(() => {
-          navigateToOption('Boleto')
-        }, 6000);
-      }
-    }
-    if (newMessages[0].text == '6') {
-      setTime(false);
-      console.log(time);
-      simulateSendToAssistant("Opção 6 selecionada: Outros")
-    }
-    if (time == false) {
-      sendToAssistant(newMessages[0].text);
+      await handlePredefinedOptions(userMessage);
+    } else {
+      //await sendToAssistant(userMessage);
+      await simulateSendToAssistant(userMessage);
     }
 
-  }
+  };
+
+  const handlePredefinedOptions = async (userMessage) => {
+    setIsTyping(true);
+    if (context == null) {
+      switch (userMessage) {
+        case '1':
+          await simulateSendToAssistant("Opção 1 selecionada: Atendimento sobre IPTU\n1. Consultar débitos\n2. Segunda via de boletos\n3. Renegociação\n0. Voltar");
+          setContext('1');
+          setIsTyping(false);
+          break;
+        case '2':
+          await simulateSendToAssistant("Opção 2 selecionada: Atendimento sobre ITBI\n1. ITBI Compra e venda\n2. ITBI Financiado\n3. ITBI Não financiado\n0. Voltar");
+          setContext('2');
+          setIsTyping(false);
+          break;
+        case '3':
+          await simulateSendToAssistant("Opção 3 selecionada: Atendimento sobre REFIS\n1. Refinanciamento de dívidas\n2. Parcelamento especial\n3. Consultar condições\n0. Voltar");
+          setContext('3');
+          setIsTyping(false);
+          break;
+        case '4':
+          await simulateSendToAssistant("Certo, iremos te direcionar para falar com algum dos nossos representantes");
+          setContext(null);
+          setIsTyping(false);
+          setTimeout(() => {
+            openWhatsApp();
+          }, 3000);
+          break;
+        case '5':
+          setContext(null);
+          setIsTyping(false);
+          await simulateSendToAssistant("Certo, iremos te direcionar para a aba de consultar seus dados e consultas de boleto. Um momento...");
+          setTimeout(() => {
+            navigateToOption('Boleto');
+          }, 3000);
+          break;
+        case '6':
+          setTime(false);
+          await simulateSendToAssistant("Opção 6 selecionada: Outros");
+          setContext(null);
+          setIsTyping(false);
+          break;
+        default:
+          setIsTyping(false);
+          await simulateSendToAssistant("Desculpe, não entendi. Pode reformular sua pergunta?");
+          break;
+      }
+    } else {
+      await handleSubOption(userMessage);
+    }
+  };
+
+  const handleSubOption = async (userMessage) => {
+    switch (context) {
+      case '1':
+        switch (userMessage) {
+          case '0':
+            await simulateSendToAssistant("Tudo bem");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '1':
+            await simulateSendToAssistant("Consultar débitos selecionado");
+            await simulateSendToAssistant(`Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, depois\ntoque em "Segunda Via de Boleto", coloque a inscrição do imóvel ou o seu CPF, clique em\nconsultar. Você terá acesso aos débitos ativos e últimos lançamentos.\nSe preferir, toque no link abaixo. https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu`);
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '2':
+            await simulateSendToAssistant("Segunda via de boletos selecionado");
+            await simulateSendToAssistant(`Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, depois\ntoque em "Segunda Via de Boleto", coloque a inscrição do imóvel ou o seu CPF, clique em\nconsultar. Você terá acesso aos débitos ativos e últimos lançamentos.\nSe preferir, toque no link abaixo. https://servicos2.speedgov.com.br/juazeirodonorte/segunda_via/iptu`);
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '3':
+            await simulateSendToAssistant(`Renegociação selecionada, Estamos com o Programa de Recuperação Fiscal (Refis) até o dia 06/11/2023, possibilitando descontos de até 100% dos juros e multas, além de parcelamentos.\nPara fazer a adesão o contribuinte deve comparecer com documento oficial com foto, no Vapt\n'Vupt ou na sede da Secretaria de Finanças.\n'Se preferir, toque no botão abaixo para agendar seu atendimento.`);
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          default:
+            setIsTyping(false);
+            await simulateSendToAssistant("Desculpe, não entendi. Pode reformular sua pergunta?");
+            break;
+            
+        }
+        break;
+      case '2':
+        switch (userMessage) {
+          case '0':
+            await simulateSendToAssistant("Tudo bem");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '1':
+            await simulateSendToAssistant("ITBI Compra e venda selecionado");
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            setIsTyping(false);
+            break;
+          case '2':
+            await simulateSendToAssistant("ITBI Financiado selecionado");
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            setIsTyping(false);
+            break;
+          case '3':
+            await simulateSendToAssistant("ITBI Não financiado selecionado");
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            setIsTyping(false);
+            break;
+          default:
+            setIsTyping(false);
+            await simulateSendToAssistant("Desculpe, não entendi. Pode reformular sua pergunta?");
+            break;
+        }
+        break;
+      case '3':
+        switch (userMessage) {
+          case '0':
+            await simulateSendToAssistant("Tudo bem");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '1':
+            await simulateSendToAssistant("Refinanciamento de dívidas selecionados");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '2':
+            await simulateSendToAssistant("Parcelamento especial");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          case '3':
+            await simulateSendToAssistant("Consultar condições");
+            await simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+          default:
+            await simulateSendToAssistant("Voltando ao menu principal");
+            simulateSendToAssistant(initialText);
+            setContext(null);
+            setIsTyping(false);
+            break;
+        }
+        break;
+      default:
+        setIsTyping(false);
+        await simulateSendToAssistant("Desculpe, não entendi. Pode reformular sua pergunta?");
+        break;
+    }
+  };
+
+
+  const openWhatsApp = () => {
+    Linking.openURL(whatsappUrl)
+      .then((data) => {
+        console.log('WhatsApp aberto com sucesso:', data);
+      })
+      .catch((error) => {
+        console.error('Erro ao abrir o WhatsApp:', error);
+      });
+  };
+
+  const simulateSendToAssistant = async (text) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, [
+        {
+          _id: previousMessages.length + 1,
+          text,
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'Serafin',
+            avatar: iconSerafin,
+          },
+        },
+      ])
+    );
+  };
 
   const sendToAssistant = async (text) => {
     setIsTyping(true);
+
     try {
       const response = await axios.post(
         'https://api.openai.com/v1/chat/completions',
@@ -194,26 +286,34 @@ const Chat = () => {
           },
         },
       );
+
       const reply = response.data.choices[0].message.content;
-      console.log(API.KEY_GPT)
 
-      setpreMessages(previousMessages => GiftedChat.append(previousMessages, [{
-
-        _id: previousMessages.length + 1,
-        text: reply,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'Serafin',
-          avatar: iconSerafin,
-        },
-      }]));
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, [
+          {
+            _id: previousMessages.length + 1,
+            text: reply,
+            createdAt: new Date(),
+            user: {
+              _id: 2,
+              name: 'Serafin',
+              avatar: iconSerafin,
+            },
+          },
+        ])
+      );
     } catch (error) {
       console.error('Erro ao enviar mensagem para o assistente:', error);
     } finally {
       setIsTyping(false);
     }
   };
+
+  const navigateToOption = (routeName) => {
+    navigation.navigate(routeName);
+  };
+
 
   return (
     <ImageBackground
@@ -222,19 +322,42 @@ const Chat = () => {
       resizeMode="cover"
     >
       <GiftedChat
-        messages={preMessages}
-        onSend={preMessages => onSendPreMessages(preMessages)}
+        messages={messages}
+        onSend={(newMessages) => onSend(newMessages)}
         user={{
           _id: 1,
         }}
         isTyping={isTyping}
         renderFooter={renderFooter}
         placeholder="Digite sua mensagem..."
+        renderDay={(props) => <CustomDay {...props} />}
       />
     </ImageBackground>
   );
+};
 
-}
+
+const CustomDay = (props) => {
+  return (
+    <Day
+      {...props}
+      textStyle={{
+        color: COLORS.white, 
+      }}
+    />
+  );
+};
+
+const renderFooter = ({ isTyping }) => {
+  if (isTyping) {
+    return (
+      <View style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.digitando}>Serafin está digitando...</Text>
+      </View>
+    );
+  }
+  return null;
+};
 
 const styles = StyleSheet.create({
   digitando: {
@@ -244,16 +367,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-  },
-  menuOptionStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-  },
-  menuOptionText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#000',
   },
 });
 

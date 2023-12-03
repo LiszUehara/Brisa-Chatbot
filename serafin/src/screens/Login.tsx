@@ -16,6 +16,7 @@ import Logo from "../svg/pessoas.svg";
 import { useAtom } from 'jotai';
 import { user } from '../repo/atom';
 import { API } from '../../env';
+import { saveData } from '../repo/store/Dao';
 
 const LoginScreen = () => {
   const [inscricao, setInscricao] = useState('');
@@ -59,6 +60,8 @@ const LoginScreen = () => {
 
       if (response.data.situacao === 'SUCESSO' && response.data.contribuintes.length > 0) {
         const user = response.data.contribuintes[0];
+        console.log(response.data.contribuintes[0]);
+        saveData('contribuintes', response.data.contribuintes[0]);
         return user;
       } else {
         return null;
@@ -73,13 +76,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAF9F6' }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
-    >
       <View style={styles.container}>
-        <Image style={styles.imagem} source={require('../svg/prefeitura-juazeiro.png')}></Image>
         <Logo width={200} height={200} />
         <View style={styles.inputContainer}>
           <Text style={{ color: COLORS.blue, paddingBottom: 12, marginTop: 24, fontSize: 24, fontWeight: 'bold' }}>Evite filas! Nossos serviços na palma de sua mão!</Text>
@@ -106,7 +103,6 @@ const LoginScreen = () => {
           </View>
         )}
       </View>
-    </KeyboardAvoidingView>
   );
 };
 

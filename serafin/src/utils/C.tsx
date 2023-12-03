@@ -9,9 +9,14 @@ export const COLORS = {
     darkGray: "#666666",
     gray: "#808080",
     black: "#000000",
+    white: "#ffffff",
     lightGray: "#CCCCCC"
 }
 export const URL = {
     urlDams: "http://hmgiss.speedgov.com.br/amontada/consulta/dams",
     urlContribuintes: "http://hmgiss.speedgov.com.br/amontada/consulta/contribuintes"
 }
+
+export const phoneNumber = '558831990367'; 
+export const whatsappUrl = `https://wa.me/${phoneNumber}`;
+

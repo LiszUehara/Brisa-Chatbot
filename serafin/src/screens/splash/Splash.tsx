@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.push('Main');
+      navigation.replace('Main');
     }, 1000);
 
     return () => clearTimeout(timeout);

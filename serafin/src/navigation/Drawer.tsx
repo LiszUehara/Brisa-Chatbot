@@ -9,10 +9,15 @@ import HomeNew from '../screens/home/NewHome';
 import BoletoStack from './BoletoStack';
 import { COLORS } from '../utils/C';
 import AboutScreen from '../screens/about/About';
-
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 const Drawer = createDrawerNavigator();
+import {contribuinte} from '../repo/atom'
+import { useAtom } from 'jotai';
 
 export default function MyDrawer() {
+  const [user, setUser] = useAtom(contribuinte);
+  
 
   const routes = {
     Home: {
@@ -66,6 +71,9 @@ export default function MyDrawer() {
       },
     },
   };
+  if(user!=null){
+    delete routes.Login
+  }
 
   return (
     <Drawer.Navigator
