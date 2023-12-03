@@ -65,8 +65,8 @@ const Chat = () => {
     if (time) {
       await handlePredefinedOptions(userMessage);
     } else {
-      //await sendToAssistant(userMessage);
-      await simulateSendToAssistant(userMessage);
+      await sendToAssistant(userMessage);
+      //await simulateSendToAssistant(userMessage);
     }
 
   };
