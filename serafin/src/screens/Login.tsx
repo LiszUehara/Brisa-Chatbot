@@ -18,18 +18,21 @@ import { user } from '../repo/atom';
 import { API } from '../../env';
 import { saveData } from '../repo/store/Dao';
 
-const LoginScreen = () => {
+
+import {contribuinte} from '../repo/atom'
+
+const LoginScreen = ({navigation}) => {
   const [inscricao, setInscricao] = useState('');
   const [inputError, setInputError] = useState('');
-  const [contribuinte, setContribuinte] = useAtom(user);
-
+  const [repo, setRepo] = useState(null);
+  const [user, setUser] = useAtom(contribuinte);
   const handleLogin = async () => {
     if (validateInput(inscricao)) {
       try {
         const user = await authenticateUser(inscricao, API.KEY_SEFIN);
 
         if (user) {
-          setContribuinte(user);
+          setRepo(user);
         } else {
           setInputError('Nenhum usuário encontrado.');
         }
@@ -60,8 +63,11 @@ const LoginScreen = () => {
 
       if (response.data.situacao === 'SUCESSO' && response.data.contribuintes.length > 0) {
         const user = response.data.contribuintes[0];
-        console.log(response.data.contribuintes[0]);
-        saveData('contribuintes', response.data.contribuintes[0]);
+        //console.log(response.data.contribuintes[0]);
+        saveData('contribuintes', user);
+        setUser(user);
+        //navigation.navigate("Home");
+
         return user;
       } else {
         return null;
@@ -94,14 +100,15 @@ const LoginScreen = () => {
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        {contribuinte && (
+        {repo && (
           <View style={styles.contribuinteContainer}>
             <Text style={styles.contribuinteLabel}>Informações do Contribuinte:</Text>
-            <Text>Nome: {contribuinte.pes_nome}</Text>
-            <Text>CPF/CNPJ: {contribuinte.pes_cpfcnpj}</Text>
-            <Text>Endereço: {contribuinte.pes_logradouro}, {contribuinte.pes_numero}</Text>
+            <Text>Nome: {user.pes_nome}</Text>
+            <Text>CPF/CNPJ: {user.pes_cpfcnpj}</Text>
+            <Text>Endereço: {user.pes_logradouro}, {user.pes_numero}</Text>
           </View>
         )}
+
       </View>
   );
 };

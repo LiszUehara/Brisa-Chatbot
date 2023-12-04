@@ -22,3 +22,11 @@ export const retrieveData = async (key: string) => {
     return null;
   }
 };
+
+export const clearAllData = async () => {
+  try {
+    await AsyncStorage.clear();
+  } catch (error) {
+    console.error('Erro ao limpar dados:', error);
+  }
+};

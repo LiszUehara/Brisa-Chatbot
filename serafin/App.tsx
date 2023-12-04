@@ -24,8 +24,8 @@ export default function App() {
     const loadContribuintes = async () => {
       const savedContribuintes = await retrieveData('contribuintes');
       if (savedContribuintes) {
-        setContribuintes(savedContribuintes.contribuintes[0]);
-        setUser(savedContribuintes.contribuintes[0])
+        setContribuintes(savedContribuintes);
+        setUser(savedContribuintes)
       }
     };
 

@@ -7,7 +7,7 @@ import { useAtom } from 'jotai';
 import {contribuinte} from '../../repo/atom'
 
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
 
   const [contribuintes, setContribuintes] = useAtom(contribuinte);
   
@@ -17,7 +17,19 @@ const ProfileScreen = () => {
       <View style={styles.container}>
   
         <View style={styles.profileHeader}>
-          <Image
+        <Image
+          source={require('../../svg/SeraFin.png')}
+          style={[styles.backgroundImage]}
+          blurRadius={20}
+
+        />
+              <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()} // Use a função de navegação para voltar
+          >
+            <Icon name="arrow-left" size={30} color={COLORS.white} />
+          </TouchableOpacity>
+        <Image
             source={require('../../svg/SeraFin.png')}
             style={styles.profileImage}
           />
@@ -29,8 +41,7 @@ const ProfileScreen = () => {
         </View>
   
         <View style={styles.body}>
-  
-          {/* Seção de Contato */}
+
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Contato</Text>
             <View style={styles.contactItem}>
@@ -91,6 +102,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    zIndex: 1,
+  },
+  backgroundImage: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    resizeMode: 'repeat',
+  
+  },
   horizontalLine: {
     height: 1,  
     width: '75%',  
@@ -101,6 +125,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     paddingTop: 16,
+    
     paddingStart: 16,
     alignItems: 'flex-start'
   },
@@ -108,8 +133,9 @@ const styles = StyleSheet.create({
   profileHeader: {
     alignItems: 'center',
     padding: 20,
-    
     backgroundColor: COLORS.black,
+    height: "40%",
+    overflow:'hidden'
   },
 
   profileImage: {

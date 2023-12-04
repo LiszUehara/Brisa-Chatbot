@@ -86,17 +86,20 @@ const Chat = () => {
           setIsTyping(false);
           break;
         case '3':
-          await simulateSendToAssistant("Opção 3 selecionada: Atendimento sobre REFIS\n1. Refinanciamento de dívidas\n2. Parcelamento especial\n3. Consultar condições\n0. Voltar");
-          setContext('3');
+          await simulateSendToAssistant("Estamos com o Programa de Recuperação Fiscal (Refis) até o dia 06/11/2023, possibilitando descontos de até 100% dos juros e multas, além de parcelamentos.");
+          await simulateSendToAssistant("Segue abaixo o link para agendar seu atendimento\n\nhttps://meuvaptvupt.com.br/pagina/agendamento\nTe aguardamos por lá. Até breve!");
+          await simulateSendToAssistant("Voltando ao menu principal");
+          simulateSendToAssistant(initialText);
+          setContext(null);
           setIsTyping(false);
           break;
         case '4':
-          await simulateSendToAssistant("Certo, iremos te direcionar para falar com algum dos nossos representantes");
+          await simulateSendToAssistant("Tornamos o nosso atendimento no Vapt Vupt mais ágil e prático. Para melhor atendê-lo\realize seu agendamento no dia e horário que melhor desejar.");
+          await simulateSendToAssistant("Segue abaixo o link para agendar seu atendimento:\n\nhttps://meuvaptvupt.com.br/pagina/agendamento\n\nTe aguardamos por lá. Até breve!");
+          await simulateSendToAssistant("Voltando ao menu principal");
+          simulateSendToAssistant(initialText);
           setContext(null);
           setIsTyping(false);
-          setTimeout(() => {
-            openWhatsApp();
-          }, 3000);
           break;
         case '5':
           setContext(null);
@@ -149,7 +152,7 @@ const Chat = () => {
             setIsTyping(false);
             break;
           case '3':
-            await simulateSendToAssistant(`Renegociação selecionada, Estamos com o Programa de Recuperação Fiscal (Refis) até o dia 06/11/2023, possibilitando descontos de até 100% dos juros e multas, além de parcelamentos.\nPara fazer a adesão o contribuinte deve comparecer com documento oficial com foto, no Vapt\n'Vupt ou na sede da Secretaria de Finanças.\n'Se preferir, toque no botão abaixo para agendar seu atendimento.`);
+            await simulateSendToAssistant(`Renegociação selecionada, Estamos com o Programa de Recuperação Fiscal (Refis) até o dia 06/11/2023, possibilitando descontos de até 100% dos juros e multas, além de parcelamentos.\nPara fazer a adesão o contribuinte deve comparecer com documento oficial com foto, no Vapt\nVupt ou na sede da Secretaria de Finanças.\nSe preferir, toque no link abaixo para agendar seu atendimento\n https://meuvaptvupt.com.br/pagina/agendamento.`);
             await simulateSendToAssistant("Voltando ao menu principal");
             simulateSendToAssistant(initialText);
             setContext(null);
@@ -172,6 +175,9 @@ const Chat = () => {
             break;
           case '1':
             await simulateSendToAssistant("ITBI Compra e venda selecionado");
+            await simulateSendToAssistant("Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, e entre com o seu cadastro, caso ainda não tenha, realize o cadastro para prosseguir. Após isso, clique em “Nova requisição” e escolha a finalidade “ITBI COMPRA E VENDA");
+            await simulateSendToAssistant("Ah, atente-se às documentações obrigatórias. Na opção de arquivos, clique na aba “escolher arquivo”, depois na aba “+Adicionar arquivo”, caso tenha mais de um documento a enviar. Por fim, clique em “Abrir Requisição”. E é só acompanhar! Prático, não?!");
+            await simulateSendToAssistant("Se preferir, toque no link abaixo que te levo até lá:\n\nhttps://servicos2.speedgov.com.br/juazeirodonorte/sessao/login");
             await simulateSendToAssistant("Voltando ao menu principal");
             simulateSendToAssistant(initialText);
             setContext(null);
@@ -180,6 +186,9 @@ const Chat = () => {
             break;
           case '2':
             await simulateSendToAssistant("ITBI Financiado selecionado");
+            await simulateSendToAssistant("Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, e entre com o seu cadastro, caso ainda não tenha, realize o cadastro para prosseguir. Após isso, clique em “Nova requisição” e escolha a finalidade “ITBI COMPRA E VENDA”.");
+            await simulateSendToAssistant("Ah, atente-se às documentações obrigatórias. Na opção de arquivos, clique na aba “escolher arquivo”, depois na aba “+Adicionar arquivo”, caso tenha mais de um documento a enviar. Por fim, clique em “Abrir Requisição”. E é só acompanhar! Prático, não?!");
+            await simulateSendToAssistant("Se preferir, toque no link abaixo que te levo até lá:\n\nhttps://servicos2.speedgov.com.br/juazeirodonorte/sessao/login");
             await simulateSendToAssistant("Voltando ao menu principal");
             simulateSendToAssistant(initialText);
             setContext(null);
@@ -188,6 +197,10 @@ const Chat = () => {
             break;
           case '3':
             await simulateSendToAssistant("ITBI Não financiado selecionado");
+            await simulateSendToAssistant("Voltando ao menu principal");
+            await simulateSendToAssistant("Acesse o site da Prefeitura de Juazeiro do Norte, click na aba “Portal do Contribuinte”, e entre com o seu cadastro, caso ainda não tenha, realize o cadastro para prosseguir. Após isso, clique em “Nova requisição” e escolha a finalidade “ITBI COMPRA E VENDA”.");
+            await simulateSendToAssistant("Ah, atente-se às documentações obrigatórias. Na opção de arquivos, clique na aba “escolher arquivo”, depois na aba “+Adicionar arquivo”, caso tenha mais de um documento a enviar. Por fim, clique em “Abrir Requisição”. E é só acompanhar! Prático, não?!");
+            await simulateSendToAssistant("Se preferir, toque no link abaixo que te levo até lá:\n\nhttps://servicos2.speedgov.com.br/juazeirodonorte/sessao/login");
             await simulateSendToAssistant("Voltando ao menu principal");
             simulateSendToAssistant(initialText);
             setContext(null);
@@ -201,38 +214,6 @@ const Chat = () => {
         }
         break;
       case '3':
-        switch (userMessage) {
-          case '0':
-            await simulateSendToAssistant("Tudo bem");
-            await simulateSendToAssistant(initialText);
-            setContext(null);
-            setIsTyping(false);
-            break;
-          case '1':
-            await simulateSendToAssistant("Refinanciamento de dívidas selecionados");
-            await simulateSendToAssistant(initialText);
-            setContext(null);
-            setIsTyping(false);
-            break;
-          case '2':
-            await simulateSendToAssistant("Parcelamento especial");
-            await simulateSendToAssistant(initialText);
-            setContext(null);
-            setIsTyping(false);
-            break;
-          case '3':
-            await simulateSendToAssistant("Consultar condições");
-            await simulateSendToAssistant(initialText);
-            setContext(null);
-            setIsTyping(false);
-            break;
-          default:
-            await simulateSendToAssistant("Voltando ao menu principal");
-            simulateSendToAssistant(initialText);
-            setContext(null);
-            setIsTyping(false);
-            break;
-        }
         break;
       default:
         setIsTyping(false);
