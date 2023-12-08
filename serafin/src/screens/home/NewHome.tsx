@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -22,25 +22,23 @@ const Home = () => {
 
   const [user, setUser] = useAtom(contribuinte);
   const [notificacoes, setNotificacoes] = useAtom(notification);
-  const [not,setNot] =  useState("0")
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <IconIon name="notifications" size={24} color="white"/>
-            
-            {notificacoes && (<>
-              <Badge
-              value = {notificacoes.length}
-              status='error'
-              containerStyle={{ position: 'absolute', top: -8, right: -6 }}
-            />
-            </>)}
+            <IconIon name="notifications" size={24} color="white" />
+            {notificacoes && (
+              <>
+                <Badge
+                  value={notificacoes.length.toString()}
 
-
-            
+                  status='error'
+                  containerStyle={{ position: 'absolute', top: -8, right: -6 }}
+                />
+              </>
+            )}
           </View>
         </TouchableOpacity>
       ),
@@ -48,7 +46,7 @@ const Home = () => {
         marginRight: 20,
       },
     });
-  }, [navigation]);
+  }, [navigation, notificacoes]);
 
 
 
