@@ -14,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Drawer = createDrawerNavigator();
 import {contribuinte} from '../repo/atom'
 import { useAtom } from 'jotai';
+import HomeStack from './HomeStack';
 
 export default function MyDrawer() {
   const [user, setUser] = useAtom(contribuinte);
@@ -22,8 +23,10 @@ export default function MyDrawer() {
   const routes = {
     Home: {
       name: 'Início',
-      component: HomeNew,
+      component: HomeStack,
+      
       options: {
+        headerShown: false,
         title: "Início",
         drawerIcon: ({ focused, size }) => (
           <Icon2 name="home" size={size} color={focused ? COLORS.blue : 'gray'} />

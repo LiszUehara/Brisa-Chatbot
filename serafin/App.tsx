@@ -9,9 +9,11 @@ import Main from './src/screens/Main';
 import { useEffect, useState } from 'react';
 import { Appearance } from 'react-native';
 import ProfileScreen from './src/screens/perfil/ProfileScreen';
-import { retrieveData } from './src/repo/store/Dao';
+import { retrieveData, saveData } from './src/repo/store/Dao';
 import { useAtom } from 'jotai';
 import {contribuinte} from './src/repo/atom'
+import {notification} from './src/repo/atom'
+import { downloadAndReadCSV } from './src/repo/api/GetNotifications';
 
 const stack = createStackNavigator();
 
@@ -19,7 +21,31 @@ export default function App() {
 
   const [contribuintes, setContribuintes] = useState([]);
   const [user, setUser] = useAtom(contribuinte);
+  const [notificacoes, setNotificacoes] = useAtom(notification);
   
+
+  useEffect(() => {
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZheCihd3HonqHHSwA7rQlfd1WMdJIRlT21xnU1IPXtn3VaeA1Jtwqx19GHws9sNhyFeU6mqibaYm2/pub?output=csv';
+
+    const fetchData = async () => {
+      try {
+        const data = await downloadAndReadCSV(url);
+        await saveData("notificacao",data);
+        await setNotificacoes(data);
+
+        //console.log('Dados do CSV:', data);
+      } catch (error) {
+        const data = await retrieveData("notificacao");
+        await setNotificacoes(data)
+        //await setNotificacoes(retrieveData("notificacao"));
+        //console.error('Erro no componente:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   useEffect(() => {
     const loadContribuintes = async () => {
       const savedContribuintes = await retrieveData('contribuintes');

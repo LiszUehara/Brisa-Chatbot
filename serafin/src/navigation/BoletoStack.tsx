@@ -6,6 +6,7 @@ import Bol from '../screens/boleto/BoletoScreen';
 const Stack = createStackNavigator();
 
 function BoletoStack() {
+  
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Bol" component={Bol} />

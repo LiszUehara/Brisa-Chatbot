@@ -7,10 +7,7 @@ import { useEffect } from 'react';
 import { contribuinte } from '../repo/atom'
 import { useAtom } from 'jotai';
 import { clearAllData } from '../repo/store/Dao';
-import { setupMicrotasks } from 'react-native-reanimated/lib/typescript/reanimated2/threads';
 import { showLogoutAlert } from '../utils/AlertLogout';
-
-
 
 export default function CustomDrawerContent(props) {
   const { navigation } = props;
@@ -52,18 +49,12 @@ export default function CustomDrawerContent(props) {
             }}
             onPress={async () => {
               showLogoutAlert(logOut)
-              
-              
             }}
           />
-            
-
         </>)}
-
       </DrawerContentScrollView>
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
